@@ -14,15 +14,17 @@ todoApp.controller('TodoController', function($rootScope, $scope, todosFactory) 
   // Default to not completed; TBC - more data here! "priority": $scope.todoPriority?
   // Flush input for next todo
   $scope.save = function($event) {
-    if ($event.which == 13 && $scope.todoInput) {
+    if ($event.which == 13 && $scope.todoInput && $scope.userInput) { // make sure all fields filled out
 
-      todosFactory.saveTodo({
+      todosFactory.saveTodo({ // write to model
         "todo": $scope.todoInput,
-        "isCompleted": false
-      }).then(function(data) {
+        "isCompleted": false,
+		"user": $scope.userInput
+      }).then(function(data) { // write to view
         $scope.todos.push(data.data);
       });
-      $scope.todoInput = '';
+      $scope.todoInput = ''; // flush input
+      $scope.userInput = '';
     }
   };
 
