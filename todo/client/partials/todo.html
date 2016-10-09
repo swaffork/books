@@ -2,6 +2,7 @@
     <div class="row col-md-12">
         <div>
 			<!-- ADD MORE INPUT HERE! -->
+			<input type="text" class="form-control input-lg" placeholder="Enter your name" ng-model="userInput">
             <input type="text" class="form-control input-lg" placeholder="Enter a Todo" ng-keypress="save($event)" ng-model="todoInput">
         </div>
     </div>
@@ -10,14 +11,27 @@
             <h3>No Todos yet!</h3>
         </div>
         <div ng-repeat="todo in todos" class="todo col-md-12 col-sm-12 col-xs-12" ng-class="todo.isCompleted ? 'strike' : ''">
+
+			<!-- Completed -->
             <div class="col-md-1 col-sm-1 col-xs-1">
                 <input type="checkbox" ng-checked="todo.isCompleted" ng-click="updateStatus($event, todo._id, $index)">
             </div>
+
+			<!-- User -->
+            <div class="col-md-8 col-sm-8 col-xs-8">
+                <span ng-show="!isEditable[$index]">{{todo.user}}</span>
+                <input ng-show="isEditable[$index]" type="text" value="{{todo.user}}" ng-keypress="edit($event,$index);">
+                <input ng-show="isEditable[$index]" type="button" class="btn btn-warning" value="Cancel" ng-click="isEditable[$index] = false" />
+            </div>
+
+			<!-- Todo item -->
             <div class="col-md-8 col-sm-8 col-xs-8">
                 <span ng-show="!isEditable[$index]">{{todo.todo}}</span>
                 <input ng-show="isEditable[$index]" type="text" value="{{todo.todo}}" ng-keypress="edit($event,$index);">
                 <input ng-show="isEditable[$index]" type="button" class="btn btn-warning" value="Cancel" ng-click="isEditable[$index] = false" />
             </div>
+
+			<!-- Edit/Delete -->
             <div class="col-md-3 col-sm-3 col-xs-3">
                 <input type="button" class="btn btn-info" ng-disabled="todo.isCompleted" class="pull-right" value="Edit" ng-click="isEditable[$index] = true" />
                 <input type="button" class="btn btn-danger" class="pull-right" value="Delete" ng-click="delete($index)" />
