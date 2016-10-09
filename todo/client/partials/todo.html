@@ -20,7 +20,7 @@
 			<!-- User -->
             <div class="col-md-8 col-sm-8 col-xs-8">
                 <span ng-show="!isEditable[$index]">{{todo.user}}</span>
-                <input ng-show="isEditable[$index]" type="text" value="{{todo.user}}" ng-keypress="edit($event,$index);">
+                <input ng-show="isEditable[$index]" type="text" value="{{todo.user}}" ng-keypress="editUser($event,$index);">
                 <input ng-show="isEditable[$index]" type="button" class="btn btn-warning" value="Cancel" ng-click="isEditable[$index] = false" />
             </div>
 

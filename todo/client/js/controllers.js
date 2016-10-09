@@ -47,7 +47,31 @@ todoApp.controller('TodoController', function($rootScope, $scope, todosFactory) 
     });
   };
 
-  // If we're changing an existing todo, we want to remove whitespace from input,
+  // EDIT USER ----------------------------------
+  // change our editing state to NOT editing,
+  // and also log what changes are happening
+  // TBC: test case! If we weren't able to edit, send an alert!
+  $scope.editTodo = function($event, i) {
+    if ($event.which == 13 && $event.target.value.trim()) {
+      var _t = $scope.todos[i];
+      todosFactory.updateTodo({ // update model
+        _id: _t._id,
+        todo: _t.todo,
+        user: $event.target.value.trim(),
+        isCompleted: _t.isCompleted
+      }).then(function(data) {
+              console.log(data);
+        if (data.data.updatedExisting) { // update view
+          _t.user = $event.target.value.trim();
+          $scope.isEditable[i] = false;
+        } else {
+          alert('Oops something went wrong!');
+        }
+      });
+    }
+  };
+
+  // EDIT TODO OBJECT ---------------------------
   // change our editing state to NOT editing,
   // and also log what changes are happening
   // TBC: test case! If we weren't able to edit, send an alert!
