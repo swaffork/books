@@ -32,7 +32,8 @@
       _id: mongojs.ObjectId(req.body._id)
     }, {
       isCompleted: req.body.isCompleted,
-      todo: req.body.todo
+      todo: req.body.todo,
+      user: req.body.user
     }, {}, function(err, data) {
       res.json(data);
     });
