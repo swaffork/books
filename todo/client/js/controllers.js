@@ -28,19 +28,18 @@ todoApp.controller('TodoController', function($rootScope, $scope, todosFactory) 
     }
   };
 
-  // PUT request is how we'll edit the todo!
-  // _t = actual todo we're editing,
-  // isCompleted = if box is checked or not??
-  // ex. priority: _t.priority
+  // PUT request is how we'll set a todo to completed
+  // _t = actual todo we're editing
   $scope.updateStatus = function($event, _id, i) {
     var cbk = $event.target.checked;
     var _t = $scope.todos[i];
-    todosFactory.updateTodo({
+    todosFactory.updateTodo({ // write to model
       _id: _id,
       isCompleted: cbk,
-      todo: _t.todo
+      todo: _t.todo,
+      user: _t.user
     }).then(function(data) {
-      if (data.data.updatedExisting) {
+      if (data.data.updatedExisting) { // write to view
         _t.isCompleted = cbk;
       } else {
         alert('Oops something went wrong!');
@@ -52,7 +51,7 @@ todoApp.controller('TodoController', function($rootScope, $scope, todosFactory) 
   // change our editing state to NOT editing,
   // and also log what changes are happening
   // TBC: test case! If we weren't able to edit, send an alert!
-  $scope.edit = function($event, i) {
+  $scope.editTodo = function($event, i) {
     if ($event.which == 13 && $event.target.value.trim()) {
       var _t = $scope.todos[i];
       todosFactory.updateTodo({
