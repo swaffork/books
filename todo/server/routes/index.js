@@ -20,6 +20,7 @@
   // Create a new to-do
   router.post('/api/todos', function(req, res) {
     db.todos.insert(req.body, function(err, data) {
+      console.log(req.body.todo);
       res.json(data);
     });
 
@@ -33,7 +34,9 @@
     }, {
       isCompleted: req.body.isCompleted,
       todo: req.body.todo,
-      user: req.body.user
+      user: req.body.user,
+      priority: req.body.priority,
+      userType: req.body.userType
     }, {}, function(err, data) {
       res.json(data);
     });

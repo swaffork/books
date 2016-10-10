@@ -77,7 +77,7 @@
 
 			<!-- Edit/Delete -->
             <div class="col-md-3 col-sm-3 col-xs-3">
-				<input ng-show="isEditable[$index]" type="button" class="btn btn-info" value="Save" ng-click="edit($event, $index)" />
+				<input ng-show="isEditable[$index]" type="button" class="btn btn-info" value="Save" ng-click="edit($index)" />
 				<input ng-show="isEditable[$index]" type="button" class="btn btn-warning" value="Cancel" ng-click="isEditable[$index] = false" />
 			</div>
             <div class="col-md-3 col-sm-3 col-xs-3">
