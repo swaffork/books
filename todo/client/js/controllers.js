@@ -56,18 +56,23 @@ todoApp.controller('TodoController', function($rootScope, $scope, todosFactory) 
   // change our editing state to NOT editing,
   // and also log what changes are happening
   // TBC: test case! If we weren't able to edit, send an alert!
-  $scope.editUser = function($event, i) {
-    if ($event.which == 13 && $event.target.value.trim()) {
+  $scope.edit = function($event, i) {
+    if ($scope.todos[i].todo)  { // make sure fields filled out
       var _t = $scope.todos[i];
       todosFactory.updateTodo({ // update model
         _id: _t._id,
         todo: _t.todo,
-        user: $event.target.value.trim(),
+        user: _t.user,
+        type: _t.userType,
+        priority: _t.priority,
         isCompleted: _t.isCompleted
       }).then(function(data) {
               console.log(data);
         if (data.data.updatedExisting) { // update view
-          _t.user = $event.target.value.trim();
+          //_t.todo = $scope.todo;
+          //_t.priority = $scope.priority;
+          //_t.user = $scope.user;
+          //_t.userType = $scope.userType;
           $scope.isEditable[i] = false;
         } else {
           alert('Oops something went wrong!');
