@@ -29,6 +29,7 @@
   // PUT method places a resource exactly at provided URI (server will not apply req to different resource)
   router.put('/api/todos', function(req, res) {
 
+    console.log('Todo:' + req.body.todo + ', priority: ' + req.body.priority + ', userType: ' + req.body.userType);
     db.todos.update({
       _id: mongojs.ObjectId(req.body._id)
     }, {
@@ -38,6 +39,7 @@
       priority: req.body.priority,
       userType: req.body.userType
     }, {}, function(err, data) {
+      console.log(data.userType);
       res.json(data);
     });
 
