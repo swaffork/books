@@ -38,7 +38,7 @@ todoApp.controller('TodoController', function($rootScope, $scope, todosFactory) 
   $scope.updateStatus = function($event, _id, i) {
     var cbk = $event.target.checked;
     var _t = $scope.todos[i];
-    console.log('Checkbox!' + _t.todo + _t.priority + _t.userType);
+    console.log('Checkbox!', _t.todo, _t.priority, _t.user, _t.userType);
     todosFactory.updateTodo({ // write to model
       _id: _id,
       isCompleted: cbk,
@@ -62,6 +62,7 @@ todoApp.controller('TodoController', function($rootScope, $scope, todosFactory) 
   $scope.edit = function(i) {
     if ($scope.todos[i]._id)  { // make sure have valid record
       var _t = $scope.todos[i];
+      console.log('Checkbox!', _t.todo, _t.priority, _t.user, _t.userType);
       todosFactory.updateTodo({ // update model
         _id: _t._id,
         todo: _t.todo,
@@ -84,7 +85,7 @@ todoApp.controller('TodoController', function($rootScope, $scope, todosFactory) 
     }
   };
 
-  // EDIT TODO OBJECT ---------------------------
+  // DEPRECATED
   // change our editing state to NOT editing,
   // and also log what changes are happening
   // TBC: test case! If we weren't able to edit, send an alert!
