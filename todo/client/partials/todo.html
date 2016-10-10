@@ -19,8 +19,8 @@
 				<input type="checkbox" ng-model="isCompleted" />
 			</div>
 
-			<!-- User -->
-			<input type="text" class="form-control input-lg" placeholder="Enter your name" ng-model="userInput" required />
+			<!-- User email -->
+			<input type="email" class="form-control input-lg" placeholder="your@name.com" ng-model="userEmail" required />
 			
 			<!-- User type -->
 			<label>You are a:</label>
@@ -62,8 +62,8 @@
 
 			<!-- User -->
             <div class="col-md-8 col-sm-8 col-xs-8" required>
-                <span ng-show="!isEditable[$index]">User: {{todo.user}}</span>
-                <input ng-show="isEditable[$index]" type="text" value="{{todo.user}}" ng-model="todo.user" />
+                <span ng-show="!isEditable[$index]">Contact: {{todo.user}}</span>
+                <input ng-show="isEditable[$index]" type="email" value="{{todo.user}}" ng-model="todo.user" />
             </div>
 
 			<!-- User type -->
