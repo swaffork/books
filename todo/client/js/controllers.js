@@ -38,11 +38,14 @@ todoApp.controller('TodoController', function($rootScope, $scope, todosFactory) 
   $scope.updateStatus = function($event, _id, i) {
     var cbk = $event.target.checked;
     var _t = $scope.todos[i];
+    console.log('Checkbox!' + _t.todo + _t.priority + _t.userType);
     todosFactory.updateTodo({ // write to model
       _id: _id,
       isCompleted: cbk,
       todo: _t.todo,
-      user: _t.user
+      user: _t.user,
+      priority: _t.priority,
+      userType: _t.userType
     }).then(function(data) {
       if (data.data.updatedExisting) { // write to view
         _t.isCompleted = cbk;
