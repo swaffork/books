@@ -21,7 +21,7 @@
 				<input type="radio" name="priorityRadios" id="radiolow" value="Low" ng-model="priority">Low
 			</div>
 
-        <input type="button" class="btn btn-info" ng-disabled="addForm.$invalid" value="Add" ng-click="save()" />
+        <input type="button" class="btn btn-info" value="Add" ng-click="save($event)" />
 		</form>
     </div>
 
@@ -45,12 +45,20 @@
             </div>
 
 			<!-- User type -->
+            <div class="col-md-8 col-sm-8 col-xs-8">
+                <span ng-show="!isEditable[$index]">{{todo.userType}}</span>
+            </div>
 
 			<!-- Todo item -->
             <div class="col-md-8 col-sm-8 col-xs-8">
                 <span ng-show="!isEditable[$index]">{{todo.todo}}</span>
                 <input ng-show="isEditable[$index]" type="text" value="{{todo.todo}}" ng-keypress="editTodo($event,$index);">
                 <input ng-show="isEditable[$index]" type="button" class="btn btn-warning" value="Cancel" ng-click="isEditable[$index] = false" />
+            </div>
+
+			<!-- Todo priority -->
+            <div class="col-md-8 col-sm-8 col-xs-8">
+                <span ng-show="!isEditable[$index]">{{todo.priority}}</span>
             </div>
 
 			<!-- Edit/Delete -->
