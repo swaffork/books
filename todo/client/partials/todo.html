@@ -6,8 +6,9 @@
 				<input type="text" class="form-control input-lg" placeholder="Enter a Todo" ng-model="todoInput" required />
 			</div>
 
-			<!-- Todo Priority -->
-			<label>Todo priority level:</label>
+			<!-- Todo Deadline -->
+			<label>Deadline:</label>
+			<input type="date" id="deadline" name="deadline" ng-model="deadline" placeholder="yyyy-MM-dd" required />
 			<div required>
 				<input type="radio" name="priorityRadios" id="radiohigh" value="High" ng-model="priority">High
 				<input type="radio" name="priorityRadios" id="radiolow" value="Low" ng-model="priority">Low
