@@ -56,8 +56,8 @@
                 <span ng-show="!isEditable[$index]">Priority: {{todo.priority}}</span>
 			</div>
 			<div ng-show="isEditable[$index]">
-				<input ng-show="isEditable[$index]" type="radio" name="priorityRadios" id="radiohigh" value="High" ng-model="todo.priority" />High
-				<input ng-show="isEditable[$index]" type="radio" name="priorityRadios" id="radiolow" value="Low" ng-model="todo.priority" />Low
+				<input ng-show="isEditable[$index]" type="radio" name="priorityRadios{{$index}}" id="radiohigh" ng-value="High" ng-model="todo.priority" ng-checked="(todo.priority == High)"/>High
+				<input ng-show="isEditable[$index]" type="radio" name="priorityRadios{{$index}}" id="radiolow" ng-value="Low" ng-model="todo.priority" ng-checked="(todo.priority == Low)"/>Low
             </div>
 
 			<!-- User -->
