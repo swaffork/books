@@ -39,7 +39,6 @@
       priority: req.body.priority,
       userType: req.body.userType
     }, {}, function(err, data) {
-      console.log(data.userType);
       res.json(data);
     });
 

@@ -25,8 +25,8 @@
 			<!-- User type -->
 			<label>You are a:</label>
 			<div required>
-				<input type="radio" name="typeRadios" id="radiohuman" value="Human" ng-model="userType">Human
-				<input type="radio" name="typeRadios" id="radiorobot" value="Robot" ng-model="userType">Robot
+				<input type="radio" name="typeRadios" id="radiohuman" value="Human" ng-model="userType" />Human
+				<input type="radio" name="typeRadios" id="radiorobot" value="Robot" ng-model="userType" />Robot
 			</div>
 
         <input type="button" class="btn btn-info" value="Add" ng-click="save($event)" />
@@ -42,13 +42,13 @@
 
 			<!-- Completed -->
             <div class="col-md-1 col-sm-1 col-xs-1">
-                <input type="checkbox" ng-checked="todo.isCompleted" ng-click="updateStatus($event, todo._id, $index)">
+                <input type="checkbox" ng-checked="todo.isCompleted" ng-click="updateStatus($event, todo._id, $index)" />
             </div>
 
-			<!-- Todo item -->
+			<!-- Todo text -->
             <div class="col-md-8 col-sm-8 col-xs-8">
                 <span ng-show="!isEditable[$index]">{{todo.todo}}</span>
-                <input ng-show="isEditable[$index]" type="text" value="{{todo.todo}}">
+                <input ng-show="isEditable[$index]" type="text" value="{{todo.todo}}" ng-model="todo.todo" />
             </div>
 
 			<!-- Todo priority -->
@@ -56,14 +56,14 @@
                 <span ng-show="!isEditable[$index]">Priority: {{todo.priority}}</span>
 			</div>
 			<div ng-show="isEditable[$index]">
-				<input ng-show="isEditable[$index]" type="radio" name="priorityRadios" id="radiohigh" value="High" ng-model="todo.priority">High
-				<input ng-show="isEditable[$index]" type="radio" name="priorityRadios" id="radiolow" value="Low" ng-model="todo.priority">Low
+				<input ng-show="isEditable[$index]" type="radio" name="priorityRadios" id="radiohigh" value="High" ng-model="todo.priority" />High
+				<input ng-show="isEditable[$index]" type="radio" name="priorityRadios" id="radiolow" value="Low" ng-model="todo.priority" />Low
             </div>
 
 			<!-- User -->
             <div class="col-md-8 col-sm-8 col-xs-8">
                 <span ng-show="!isEditable[$index]">User: {{todo.user}}</span>
-                <input ng-show="isEditable[$index]" type="text" value="{{todo.user}}">
+                <input ng-show="isEditable[$index]" type="text" value="{{todo.user}}" ng-model="todo.user" />
             </div>
 
 			<!-- User type -->
@@ -71,8 +71,8 @@
                 <span ng-show="!isEditable[$index]">User type: {{todo.userType}}</span>
 			</div>
 			<div ng-show="isEditable[$index]">
-				<input ng-show="isEditable[$index]" type="radio" name="typeRadios" id="radiohuman" value="Human" ng-model="todo.userType">Human
-				<input ng-show="isEditable[$index]" type="radio" name="typeRadios" id="radiorobot" value="Robot" ng-model="todo.userType">Robot
+				<input ng-show="isEditable[$index]" type="radio" name="typeRadios" id="radiohuman" value="Human" ng-model="todo.userType" />Human
+				<input ng-show="isEditable[$index]" type="radio" name="typeRadios" id="radiorobot" value="Robot" ng-model="todo.userType" />Robot
             </div>
 
 			<!-- Edit/Delete -->
