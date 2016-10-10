@@ -1,19 +1,28 @@
 <div class="container" ng-controller="TodoController">
     <div class="row col-md-12">
-        <div>
+		<form>
 			<!-- User -->
-			<input type="text" class="form-control input-lg" placeholder="Enter your name" ng-model="userInput">
-
+			<input type="text" class="form-control input-lg" placeholder="Enter your name" ng-model="userInput" required>
+			
 			<!-- User type -->
-			<span>You are a</span>
-			<input type="radio" ng-model="userType" value="human">Human</label>
-			<input type="radio" ng-model="userType" value="robot">Robot</label><br />
-
-			<!-- Todo priority -->
+			<label>You are a:</label>
+			<div required>
+				<input type="radio" name="typeRadios" id="radiohuman" value="Human" ng-model="userType">Human
+				<input type="radio" name="typeRadios" id="radiorobot" value="Robot" ng-model="userType">Robot
+			</div>
 
 			<!-- Todo item -->
-            <input type="text" class="form-control input-lg" placeholder="Enter a Todo" ng-keypress="save($event)" ng-model="todoInput">
-        </div>
+			<input type="text" class="form-control input-lg" placeholder="Enter a Todo" ng-model="todoInput">
+
+			<!-- Todo Priority -->
+			<label>Todo priority level:</label>
+			<div required>
+				<input type="radio" name="priorityRadios" id="radiohigh" value="High" ng-model="priority">High
+				<input type="radio" name="priorityRadios" id="radiolow" value="Low" ng-model="priority">Low
+			</div>
+
+        <input type="button" class="btn btn-info" ng-disabled="addForm.$invalid" value="Add" ng-click="save()" />
+		</form>
     </div>
 
 	<!-- CURRENT TODOS -->
