@@ -18,7 +18,7 @@ todoApp.controller('TodoController', function($rootScope, $scope, todosFactory) 
 
       todosFactory.saveTodo({ // write to model
         "todo": $scope.todoInput,
-        "isCompleted": false,
+        "isCompleted": $scope.isCompleted,
 		"user": $scope.userInput,
         "userType": $scope.userType,
         "priority": $scope.priority
@@ -29,6 +29,7 @@ todoApp.controller('TodoController', function($rootScope, $scope, todosFactory) 
       $scope.userInput = '';
       $scope.userType = '';
       $scope.priority = '';
+      $scope.isCompleted = '';
     }
   };
 

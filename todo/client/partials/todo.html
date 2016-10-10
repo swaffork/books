@@ -21,6 +21,12 @@
 				<input type="radio" name="priorityRadios" id="radiolow" value="Low" ng-model="priority">Low
 			</div>
 
+			<!-- Completed -->
+			<div>
+				<span>Already completed?</span>
+				<input type="checkbox" ng-model="isCompleted" />
+			</div>
+
         <input type="button" class="btn btn-info" value="Add" ng-click="save($event)" />
 		</form>
     </div>
