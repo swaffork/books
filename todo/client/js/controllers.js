@@ -57,7 +57,7 @@ todoApp.controller('TodoController', function($rootScope, $scope, todosFactory) 
   // and also log what changes are happening
   // TBC: test case! If we weren't able to edit, send an alert!
   $scope.edit = function($event, i) {
-    if ($scope.todos[i].todo)  { // make sure fields filled out
+    if ($scope.todos[i]._id)  { // make sure have valid record
       var _t = $scope.todos[i];
       todosFactory.updateTodo({ // update model
         _id: _t._id,
@@ -69,10 +69,10 @@ todoApp.controller('TodoController', function($rootScope, $scope, todosFactory) 
       }).then(function(data) {
               console.log(data);
         if (data.data.updatedExisting) { // update view
-          //_t.todo = $scope.todo;
-          //_t.priority = $scope.priority;
-          //_t.user = $scope.user;
-          //_t.userType = $scope.userType;
+          _t.todo = _t.todo;
+          _t.priority = _t.priority;
+          _t.user = _t.user;
+          _t.userType = _t.userType;
           $scope.isEditable[i] = false;
         } else {
           alert('Oops something went wrong!');

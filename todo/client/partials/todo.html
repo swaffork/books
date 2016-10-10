@@ -54,6 +54,8 @@
 			<!-- Todo priority -->
             <div class="col-md-8 col-sm-8 col-xs-8">
                 <span ng-show="!isEditable[$index]">Priority: {{todo.priority}}</span>
+			</div>
+			<div ng-show="isEditable[$index]">
 				<input ng-show="isEditable[$index]" type="radio" name="priorityRadios" id="radiohigh" value="High" ng-model="todo.priority">High
 				<input ng-show="isEditable[$index]" type="radio" name="priorityRadios" id="radiolow" value="Low" ng-model="todo.priority">Low
             </div>
@@ -67,6 +69,8 @@
 			<!-- User type -->
             <div class="col-md-8 col-sm-8 col-xs-8">
                 <span ng-show="!isEditable[$index]">User type: {{todo.userType}}</span>
+			</div>
+			<div ng-show="isEditable[$index]">
 				<input ng-show="isEditable[$index]" type="radio" name="typeRadios" id="radiohuman" value="Human" ng-model="todo.userType">Human
 				<input ng-show="isEditable[$index]" type="radio" name="typeRadios" id="radiorobot" value="Robot" ng-model="todo.userType">Robot
             </div>
