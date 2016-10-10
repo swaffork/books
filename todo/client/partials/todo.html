@@ -3,7 +3,7 @@
 		<form>
 			<!-- Todo item -->
 			<div>
-				<input type="text" class="form-control input-lg" placeholder="Enter a Todo" ng-model="todoInput">
+				<input type="text" class="form-control input-lg" placeholder="Enter a Todo" ng-model="todoInput" required />
 			</div>
 
 			<!-- Todo Priority -->
@@ -20,7 +20,7 @@
 			</div>
 
 			<!-- User -->
-			<input type="text" class="form-control input-lg" placeholder="Enter your name" ng-model="userInput" required>
+			<input type="text" class="form-control input-lg" placeholder="Enter your name" ng-model="userInput" required />
 			
 			<!-- User type -->
 			<label>You are a:</label>
@@ -48,20 +48,20 @@
 			<!-- Todo text -->
             <div class="col-md-8 col-sm-8 col-xs-8">
                 <span ng-show="!isEditable[$index]">{{todo.todo}}</span>
-                <input ng-show="isEditable[$index]" type="text" value="{{todo.todo}}" ng-model="todo.todo" />
+                <input ng-show="isEditable[$index]" type="text" value="{{todo.todo}}" ng-model="todo.todo" required />
             </div>
 
 			<!-- Todo priority -->
             <div class="col-md-8 col-sm-8 col-xs-8">
                 <span ng-show="!isEditable[$index]">Priority: {{todo.priority}}</span>
 			</div>
-			<div ng-show="isEditable[$index]">
+			<div ng-show="isEditable[$index]" >
 				<input ng-show="isEditable[$index]" type="radio" name="priorityRadios{{$index}}" id="radiohigh" value="High" ng-model="todo.priority" ng-checked="(todo.priority == High)"/>High
 				<input ng-show="isEditable[$index]" type="radio" name="priorityRadios{{$index}}" id="radiolow" value="Low" ng-model="todo.priority" ng-checked="(todo.priority == Low)"/>Low
             </div>
 
 			<!-- User -->
-            <div class="col-md-8 col-sm-8 col-xs-8">
+            <div class="col-md-8 col-sm-8 col-xs-8" required>
                 <span ng-show="!isEditable[$index]">User: {{todo.user}}</span>
                 <input ng-show="isEditable[$index]" type="text" value="{{todo.user}}" ng-model="todo.user" />
             </div>
