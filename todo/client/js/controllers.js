@@ -66,11 +66,11 @@ todoApp.controller('TodoController', function($rootScope, $scope, todosFactory) 
         _id: _t._id,
         todo: _t.todo,
         user: _t.user,
-        type: _t.userType,
+        userType: _t.userType,
         priority: _t.priority,
         isCompleted: _t.isCompleted
       }).then(function(data) {
-              console.log(data);
+        console.log(data.config.data.todo + data.config.data.userType);
         if (data.data.updatedExisting) { // update view
           _t.todo = _t.todo;
           _t.priority = _t.priority;
