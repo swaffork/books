@@ -1,18 +1,10 @@
 <div class="container" ng-controller="TodoController">
     <div class="row col-md-12">
 		<form>
-			<!-- User -->
-			<input type="text" class="form-control input-lg" placeholder="Enter your name" ng-model="userInput" required>
-			
-			<!-- User type -->
-			<label>You are a:</label>
-			<div required>
-				<input type="radio" name="typeRadios" id="radiohuman" value="Human" ng-model="userType">Human
-				<input type="radio" name="typeRadios" id="radiorobot" value="Robot" ng-model="userType">Robot
-			</div>
-
 			<!-- Todo item -->
-			<input type="text" class="form-control input-lg" placeholder="Enter a Todo" ng-model="todoInput">
+			<div>
+				<input type="text" class="form-control input-lg" placeholder="Enter a Todo" ng-model="todoInput">
+			</div>
 
 			<!-- Todo Priority -->
 			<label>Todo priority level:</label>
@@ -23,15 +15,25 @@
 
 			<!-- Completed -->
 			<div>
-				<span>Already completed?</span>
+				<label>Already completed?</label>
 				<input type="checkbox" ng-model="isCompleted" />
+			</div>
+
+			<!-- User -->
+			<input type="text" class="form-control input-lg" placeholder="Enter your name" ng-model="userInput" required>
+			
+			<!-- User type -->
+			<label>You are a:</label>
+			<div required>
+				<input type="radio" name="typeRadios" id="radiohuman" value="Human" ng-model="userType">Human
+				<input type="radio" name="typeRadios" id="radiorobot" value="Robot" ng-model="userType">Robot
 			</div>
 
         <input type="button" class="btn btn-info" value="Add" ng-click="save($event)" />
 		</form>
     </div>
 
-	<!-- CURRENT TODOS -->
+	<!-- VIEW THE TODOS! -->
     <div class="row col-md-12 todos">
         <div class="alert alert-info text-center" ng-hide="todos.length > 0">
             <h3>No Todos yet!</h3>
@@ -41,18 +43,6 @@
 			<!-- Completed -->
             <div class="col-md-1 col-sm-1 col-xs-1">
                 <input type="checkbox" ng-checked="todo.isCompleted" ng-click="updateStatus($event, todo._id, $index)">
-            </div>
-
-			<!-- User -->
-            <div class="col-md-8 col-sm-8 col-xs-8">
-                <span ng-show="!isEditable[$index]">{{todo.user}}</span>
-                <input ng-show="isEditable[$index]" type="text" value="{{todo.user}}" ng-keypress="editUser($event,$index);">
-                <input ng-show="isEditable[$index]" type="button" class="btn btn-warning" value="Cancel" ng-click="isEditable[$index] = false" />
-            </div>
-
-			<!-- User type -->
-            <div class="col-md-8 col-sm-8 col-xs-8">
-                <span ng-show="!isEditable[$index]">{{todo.userType}}</span>
             </div>
 
 			<!-- Todo item -->
@@ -65,6 +55,18 @@
 			<!-- Todo priority -->
             <div class="col-md-8 col-sm-8 col-xs-8">
                 <span ng-show="!isEditable[$index]">{{todo.priority}}</span>
+            </div>
+
+			<!-- User -->
+            <div class="col-md-8 col-sm-8 col-xs-8">
+                <span ng-show="!isEditable[$index]">{{todo.user}}</span>
+                <input ng-show="isEditable[$index]" type="text" value="{{todo.user}}" ng-keypress="editUser($event,$index);">
+                <input ng-show="isEditable[$index]" type="button" class="btn btn-warning" value="Cancel" ng-click="isEditable[$index] = false" />
+            </div>
+
+			<!-- User type -->
+            <div class="col-md-8 col-sm-8 col-xs-8">
+                <span ng-show="!isEditable[$index]">{{todo.userType}}</span>
             </div>
 
 			<!-- Edit/Delete -->
