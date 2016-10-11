@@ -11,7 +11,6 @@ todoApp.controller('TodoController', function($rootScope, $scope, todosFactory) 
   });
 
   // When we create a new todo, send it to the saveTodo method in our factory!
-  // Default to not completed; TBC - more data here! "priority": $scope.todoPriority?
   // Flush input for next todo
   $scope.save = function($event) {
     if ($scope.todoInput && $scope.userEmail && $scope.userType && $scope.priority) { // make sure all fields filled out

@@ -7,12 +7,8 @@
 			</div>
 
 			<!-- Todo Deadline -->
-			<label>Deadline:</label>
-			<input type="date" id="deadline" name="deadline" ng-model="deadline" placeholder="yyyy-MM-dd" required />
-			<div required>
-				<input type="radio" name="priorityRadios" id="radiohigh" value="High" ng-model="priority">High
-				<input type="radio" name="priorityRadios" id="radiolow" value="Low" ng-model="priority">Low
-			</div>
+			<label>Priority level: {{ $scope.priority }} </label>
+			<input type="range" name="range" ng-model="priority" min="1" max="5" required />
 
 			<!-- Completed -->
 			<div>
@@ -54,11 +50,10 @@
 
 			<!-- Todo priority -->
             <div class="col-md-8 col-sm-8 col-xs-8">
-                <span ng-show="!isEditable[$index]">Priority: {{todo.priority}}</span>
+                <span>Priority level: {{todo.priority}}</span>
 			</div>
-			<div ng-show="isEditable[$index]" >
-				<input ng-show="isEditable[$index]" type="radio" name="priorityRadios{{$index}}" id="radiohigh" value="High" ng-model="todo.priority" ng-checked="(todo.priority == High)"/>High
-				<input ng-show="isEditable[$index]" type="radio" name="priorityRadios{{$index}}" id="radiolow" value="Low" ng-model="todo.priority" ng-checked="(todo.priority == Low)"/>Low
+			<div ng-show="isEditable[$index]">
+				<input ng-show="isEditable[$index]" type="range" name="priority{{$index}}" value="{{todo.priority}}" ng-model="todo.priority" min="1" max="5" />
             </div>
 
 			<!-- User -->
