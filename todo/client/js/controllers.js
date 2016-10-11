@@ -28,6 +28,19 @@ todoApp.controller('TodoController', function($rootScope, $scope, todosFactory) 
       $scope.userType = '';
       $scope.priority = '';
       $scope.isCompleted = '';
+      $scope.error = '';
+    }
+    else {
+      if (!$scope.todoInput) {
+        $scope.error = 'Please provide a todo!';}
+      else if (!$scope.priority) {
+        $scope.error = 'Please provide a priority for todo!';}
+      else if (!$scope.userEmail) {
+        $scope.error = 'Please provide a contact email!';}
+      else if (!$scope.userType) {
+        $scope.error = 'Please indicate if you are a human or robot!';}
+      else {
+        $scope.error = 'Unknown error!';}
     }
   };
 
@@ -60,8 +73,10 @@ todoApp.controller('TodoController', function($rootScope, $scope, todosFactory) 
   // and also log what changes are happening
   // TBC: test case! If we weren't able to edit, send an alert!
   $scope.edit = function(i) {
-    if ($scope.todos[i]._id)  { // make sure have valid record
-      var _t = $scope.todos[i];
+    var _t = $scope.todos[i];
+    if (!_t.todo)  {$scope.editError = 'Cannot have unnamed todo!';} // make sure have valid record
+    else if (!_t.user) {$scope.editError = 'Please provide contact email!';}
+    else {
       console.log('Checkbox!', _t.todo, _t.priority, _t.user, _t.userType);
       todosFactory.updateTodo({ // update model
         _id: _t._id,
@@ -78,6 +93,7 @@ todoApp.controller('TodoController', function($rootScope, $scope, todosFactory) 
           _t.user = _t.user;
           _t.userType = _t.userType;
           $scope.isEditable[i] = false;
+          $scope.editError = '';
         } else {
           alert('Oops something went wrong!');
         }

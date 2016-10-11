@@ -17,7 +17,7 @@
 			</div>
 
 			<!-- User email -->
-			<input type="email" class="form-control input-lg" placeholder="your@name.com" ng-model="userEmail" required />
+			<input type="email" class="form-control input-lg" placeholder="your@email.com" ng-model="userEmail" required />
 			
 			<!-- User type -->
 			<label>You are a:</label>
@@ -27,6 +27,7 @@
 			</div>
 
         <input type="button" class="btn btn-info" value="Add" ng-click="save($event)" />
+		<span>{{ error }}</span>
 		</form>
     </div>
 
@@ -74,6 +75,7 @@
 			<!-- Edit/Delete -->
             <div class="col-md-3 col-sm-3 col-xs-3">
 				<input ng-show="isEditable[$index]" type="button" class="btn btn-info" value="Save" ng-click="edit($index)" />
+				<span>{{ editError }}</span>
 				<input ng-show="isEditable[$index]" type="button" class="btn btn-warning" value="Cancel" ng-click="isEditable[$index] = false" />
 			</div>
             <div class="col-md-3 col-sm-3 col-xs-3">
