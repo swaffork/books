@@ -6,18 +6,16 @@
  */
 
 // Setup!
-var restify = require('restify');
-var mongojs = require('mongojs');
+var express = require('express');
+var server = express();
+var bodyParser = require('body-parser');
+server.use(bodyParser.urlencoded({ extended: true }));
+server.use(bodyParser.json());
+var port = process.env.PORT || 3000;
 
 // Connect to MongoDB with standard URI:
 // mongodb://<dbuser>:<dbpassword>@ds063546.mlab.com:63546/almanac, ['<collection>']
-var db = mongojs('mongodb://admin:hasswa@ds063546.mlab.com:63546/almanac', ['entries']);
-
-// Server stuff
-var server = restify.createServer();
-server.use(restify.acceptParser(server.acceptable));
-server.use(restify.queryParser());
-server.use(restify.bodyParser());
+//var db = mongojs('mongodb://admin:hasswa@ds063546.mlab.com:63546/almanac', ['entries']);
 
 /* ----- /places GET endpoint -----
 Effect: view all the places in the almanac.
@@ -26,13 +24,7 @@ res = all data server sends to client
 next = used to invoke next middleware method in queue */
 server.get('/places', function (req, res, next) {
     console.log('In places GET');
-    db.entries.find(function (err, entries) {
-        res.writeHead(200, {
-            'Content-Type': 'application/json'
-        });
-        res.end(JSON.stringify(entries));
-    });
-    return next();
+    res.json({ message: 'wow it works again!' });
 });
 
 /* ----- /place/id GET endpoint 
@@ -117,6 +109,6 @@ server.del('product/:name', function (req, res, next) {
 */
 
 // Run server
-server.listen(3000, function () {
-    console.log('Server listening on 3000...');
+server.listen(port, function () {
+    console.log('Server listening on ' + port);
 });
