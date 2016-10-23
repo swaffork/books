@@ -7,40 +7,34 @@
  */
 
 // Sever setup! ---------------------------------------------------------------
-var express = require('express');
-var server = express();
-var bodyParser = require('body-parser');
+var restify = require('restify');
+var mongojs = require('mongojs');
+var server = restify.createServer();
 
-server.use(bodyParser.urlencoded({ extended: true }));
-server.use(bodyParser.json());
+server.use(restify.acceptParser(server.acceptable));
+server.use(restify.queryParser());
+server.use(restify.bodyParser());
 var port = process.env.PORT || 3000;
 
 // Database setup! ------------------------------------------------------------
 // mongodb://<dbuser>:<dbpassword>@ds063546.mlab.com:63546/almanac
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://admin:hasswa@ds063546.mlab.com:63546/almanac');
-var Place = require('./models/place');
+var db = mongojs('mongodb://admin:hasswa@ds063546.mlab.com:63546/almanac', ['places']);
 
 // Routes! --------------------------------------------------------------------
-var router = express.Router(); // all routes defined and applied to root URL /almanac
 
 // Middleware to use for all requests
 // TBC: validate req, throw error if something wrong
-router.use(function (req, res, next) {
-    console.log('Request coming in...');
-    next();
-});
 
 // Test route to makes sure server is up (GET http://localhost:3000/almanac)
-router.get('/', function (req, res, next) {
+server.get('/', function (req, res, next) {
     res.writeHead(200, {
         'Content-Type': 'application/json'
     });
-    res.send('Server is up!');
+    res.end('Server is up!');
     return next();
 });
 
-// /almanac/places routes -------------
+/* /almanac/places routes -------------
 router.route('/places')
     // Get all the places (GET http://localhost:3000/almanac/places)
     .get(function (req, res) {
@@ -66,7 +60,7 @@ router.route('/places')
 
             res.json({ message: 'Place created!' });
         });
-    });
+    }); */
 
 /* ----- /place/id GET endpoint 
 Effect: view a single place
@@ -148,7 +142,7 @@ server.del('product/:name', function (req, res, next) {
 });
 */
 
-// Register routes and run server
-server.use('/almanac', router);
-server.listen(port);
-console.log('Server listening on ' + port);
+// Start the server! ----------------------------------------------------------
+server.listen(port, function () {
+    console.log('Server listening on ' + port);
+});
