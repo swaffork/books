@@ -25,13 +25,25 @@ var db = mongojs('mongodb://admin:hasswa@ds063546.mlab.com:63546/almanac', ['pla
 // Middleware to use for all requests
 // TBC: validate req, throw error if something wrong
 
-// Test route to makes sure server is up (GET http://localhost:3000/almanac)
+// Test route to makes sure server is up (GET http://localhost:3000/)
 server.get('/', function (req, res, next) {
 	console.log("GET '/'");
     res.writeHead(200, {
         'Content-Type': 'application/json'
     });
     res.end('Server is up!');
+    return next();
+});
+
+// Get all the places (GET http://localhost:3000/places)
+server.get('places', function (req, res, next) {
+    console.log("GET /places");
+    db.places.find(function (err, places) {
+        res.writeHead(200, {
+            'Content-Type': 'application/json'
+        });
+        res.end(JSON.stringify(places));
+    });
     return next();
 });
 
