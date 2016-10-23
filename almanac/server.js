@@ -12,6 +12,7 @@ var bodyParser = require('body-parser');
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 var port = process.env.PORT || 3000;
+var router = express.Router(); // all routes defined and applied to root URL /almanac
 
 // Connect to MongoDB with standard URI:
 // mongodb://<dbuser>:<dbpassword>@ds063546.mlab.com:63546/almanac, ['<collection>']
@@ -22,7 +23,7 @@ Effect: view all the places in the almanac.
 req = all data from client
 res = all data server sends to client
 next = used to invoke next middleware method in queue */
-server.get('/places', function (req, res, next) {
+router.get('/places', function (req, res, next) {
     console.log('In places GET');
     res.json({ message: 'wow it works again!' });
 });
@@ -108,7 +109,8 @@ server.del('product/:name', function (req, res, next) {
 });
 */
 
-// Run server
+// Register routes and run server
+server.use('/almanac', router);
 server.listen(port, function () {
     console.log('Server listening on ' + port);
 });
