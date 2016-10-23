@@ -3,6 +3,7 @@
  * With help from:
  * http://thejackalofjavascript.com/nodejs-restify-mongolab-build-rest-api/
  * https://scotch.io/tutorials/build-a-restful-api-using-node-and-express-4
+ * http://adrianmejia.com/blog/2014/10/01/creating-a-restful-api-tutorial-with-nodejs-and-mongodb/
  */
 
 // Sever setup! ---------------------------------------------------------------
@@ -31,8 +32,12 @@ router.use(function (req, res, next) {
 });
 
 // Test route to makes sure server is up (GET http://localhost:3000/almanac)
-router.get('/', function (req, res) {
-    res.json({ message: 'Almanac is up!'});
+router.get('/', function (req, res, next) {
+    res.writeHead(200, {
+        'Content-Type': 'application/json'
+    });
+    res.send('Server is up!');
+    return next();
 });
 
 // /almanac/places routes -------------
