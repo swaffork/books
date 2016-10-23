@@ -27,6 +27,7 @@ var db = mongojs('mongodb://admin:hasswa@ds063546.mlab.com:63546/almanac', ['pla
 
 // Test route to makes sure server is up (GET http://localhost:3000/almanac)
 server.get('/', function (req, res, next) {
+	console.log("GET '/'");
     res.writeHead(200, {
         'Content-Type': 'application/json'
     });
