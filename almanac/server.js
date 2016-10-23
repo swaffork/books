@@ -5,33 +5,68 @@
  * https://scotch.io/tutorials/build-a-restful-api-using-node-and-express-4
  */
 
-// Setup!
+// Sever setup! ---------------------------------------------------------------
 var express = require('express');
 var server = express();
 var bodyParser = require('body-parser');
+
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 var port = process.env.PORT || 3000;
+
+// Database setup! ------------------------------------------------------------
+// mongodb://<dbuser>:<dbpassword>@ds063546.mlab.com:63546/almanac
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://admin:hasswa@ds063546.mlab.com:63546/almanac');
+var Place = require('./models/place');
+
+// Routes! --------------------------------------------------------------------
 var router = express.Router(); // all routes defined and applied to root URL /almanac
 
-// Connect to MongoDB with standard URI:
-// mongodb://<dbuser>:<dbpassword>@ds063546.mlab.com:63546/almanac, ['<collection>']
-//var db = mongojs('mongodb://admin:hasswa@ds063546.mlab.com:63546/almanac', ['entries']);
-
-/* ----- /places GET endpoint -----
-Effect: view all the places in the almanac.
-req = all data from client
-res = all data server sends to client
-next = used to invoke next middleware method in queue */
-router.get('/places', function (req, res, next) {
-    console.log('In places GET');
-    res.json({ message: 'wow it works again!' });
+// Middleware to use for all requests
+// TBC: validate req, throw error if something wrong
+router.use(function (req, res, next) {
+    console.log('Request coming in...');
+    next();
 });
+
+// Test route to makes sure server is up (GET http://localhost:3000/almanac)
+router.get('/', function (req, res) {
+    res.json({ message: 'Almanac is up!'});
+});
+
+// /almanac/places routes -------------
+router.route('/places')
+    // Get all the places (GET http://localhost:3000/almanac/places)
+    .get(function (req, res) {
+        Place.find(function (err, places) {
+            if (err)
+                res.send(err);
+
+            res.json(places);
+        });
+    })
+
+    // Create a new place (POST http://localhost:3000/almanac/places)
+    .post(function (req, res) {
+        console.log('POST almanac/places');
+        var place = new Place(); // new instance of Place model
+        place.name = req.body.name;
+        console.log(place.name);
+
+        // If no errors, save the place
+        place.save(function (err) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Place created!' });
+        });
+    });
 
 /* ----- /place/id GET endpoint 
 Effect: view a single place
 req.params.name = name of place
-*/
+
 server.get('/place/:name', function (req, res, next) {
     console.log('In place/name GET')
     db.entries.findOne({
@@ -43,11 +78,11 @@ server.get('/place/:name', function (req, res, next) {
         res.end(JSON.stringify(data));
     });
     return next();
-});
+}); */
 
 /* ----- /places POST endpoint -----
 Effect: add a new place to almanac.
-req.params = place object send by client */
+req.params = place object send by client 
 server.post('/places', function (req, res, next) {
     console.log('In places POST');
     var place = req.params;
@@ -59,12 +94,11 @@ server.post('/places', function (req, res, next) {
             res.end(JSON.stringify(data));
         });
     return next();
-});
+}); */
 
 /* ----- /place PUT endpoint -----
 Effect: update existing place
 req.params.name = name of the place to update
-*/
 server.put('/place/:name', function (req, res, next) {
     // get existing place
     db.entries.findOne({
@@ -91,7 +125,7 @@ server.put('/place/:name', function (req, res, next) {
         });
     });
     return next();
-});
+}); */
 
 /* ----- /place DELETE endpoint -----
 Effect: remove a place from almanac
@@ -111,6 +145,5 @@ server.del('product/:name', function (req, res, next) {
 
 // Register routes and run server
 server.use('/almanac', router);
-server.listen(port, function () {
-    console.log('Server listening on ' + port);
-});
+server.listen(port);
+console.log('Server listening on ' + port);
