@@ -129,26 +129,23 @@ app.put("/places/:id", function (req, res) {
             handleError(res, "Invalid document ID", "Failed to update place: invalid ID", 400);
         } else {
             // Send updated place
-            res.status(200).json(doc);
+            res.status(200).json(doc.value);
         }
     });
 });
 
 app.delete("/places/:id", function (req, res) {
-    console.log('deleting place');
-
-    // Change people's references to this place to NULL
-    console.log('looking for people to update');
+    // Update references to this place (set homeID to NULL)
     db.collection(PEOPLE_COLLECTION).update(
         { homeID: req.params.id }, // Query for people whose home this was
         { $set: { homeID: "NULL" } }, // Remove reference to this place
         { multi: true }, // Update all peope whose home this was
-        function (err, doc) {
+        function (err, result) {
             if (err) {
                 handleError(res, "Could not update homeID reference", "Failed to delete place: could not update homeID reference", 400);
             }
             else {
-                console.log('Number of people updated:' + doc.nModified); // Log how many people records were affected
+                console.log('References in PEOPLE removed.'); // tbc: report how many people affected?
             }
     });
 
@@ -165,7 +162,7 @@ app.delete("/places/:id", function (req, res) {
             handleError(res, "Invalid document ID", "Failed to delete place: invalid ID", 400);
         } else {
             // Send deleted place
-            res.status(200).json(doc);
+            res.status(200).json(doc.value);
         }
     });
 });
@@ -259,7 +256,7 @@ app.put("/people/:id", function (req, res) {
                             handleError(res, "Invalid document ID", "Failed to update person: invalid ID", 400);
                         } else {
                             // Send updated person
-                            res.status(200).json(doc);
+                            res.status(200).json(doc.value);
                         }
                     });
             }
@@ -277,7 +274,7 @@ app.put("/people/:id", function (req, res) {
                     handleError(res, "Invalid document ID", "Failed to update person: invalid ID", 400);
                 } else {
                     // Send updated person
-                    res.status(200).json(doc);
+                    res.status(200).json(doc.value);
                 }
             });
     }
@@ -296,7 +293,7 @@ app.delete("/people/:id", function (req, res) {
                 handleError(res, "Invalid document ID", "Failed to delete person: invalid ID", 400);
             } else {
                 // Send deleted person
-                res.status(200).json(doc);
+                res.status(200).json(doc.value);
             }
         });
 });
