@@ -101,15 +101,20 @@ app.get("/places/:id", function (req, res) {
 app.put("/places/:id", function (req, res) {
     var updateDoc = req.body;
     delete updateDoc._id;
-    // Update only selected fields using $set operator:
-    db.collection(PLACES_COLLECTION).updateOne({ _id: new ObjectID(req.params.id) }, { $set: updateDoc }, function(err, doc) {
+    
+    db.collection(PLACES_COLLECTION).findAndModify(
+        { _id: new ObjectID(req.params.id) }, // Query
+        [['_id', 'asc']], // Required sort order
+        { $set: updateDoc }, // Update only changed fields
+        { new: true }, // Return updated document as bson binary buffer
+        function (err, doc) {
         if (err) {
             handleErrr(res, err.message, "Failed to update place");
         } else if (false) {
             // failed to update
         } else {
             // send updated place
-            res.status(204).json(doc);
+            res.status(200).json(doc);
         }
     });
 });
