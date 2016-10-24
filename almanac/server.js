@@ -111,11 +111,12 @@ app.put("/places/:id", function (req, res) {
         { new: true }, // Return updated document as bson binary buffer
         function (err, doc) {
         if (err) {
-            handleErrr(res, err.message, "Failed to update place");
-        } else if (false) {
-            // failed to update
+            handleError(res, err.message, "Failed to update place");
+        } else if (!doc["value"]) {
+            handleError(res, "Invalid document ID", "Failed to update place");
         } else {
             // send updated place
+            console.log(doc["value"], doc["ok"]);
             res.status(200).json(doc);
         }
     });
