@@ -3,28 +3,51 @@
  * With help from:
  * http://thejackalofjavascript.com/nodejs-restify-mongolab-build-rest-api/
  * https://scotch.io/tutorials/build-a-restful-api-using-node-and-express-4
- * http://adrianmejia.com/blog/2014/10/01/creating-a-restful-api-tutorial-with-nodejs-and-mongodb/
+ * https://devcenter.heroku.com/articles/mean-apps-restful-api
  */
 
 // Sever setup! ---------------------------------------------------------------
-var restify = require('restify');
-var mongojs = require('mongojs');
-var server = restify.createServer();
+var express = require("express");
+var path = require("path");
+var bodyParser = require("body-parser");
+var mongodb = require("mongodb");
+var ObjectID = mongodb.ObjectID;
 
-server.use(restify.acceptParser(server.acceptable));
-server.use(restify.queryParser());
-server.use(restify.bodyParser());
-var port = process.env.PORT || 3000;
+var PLACES_COLLECTION = "places";
+
+var app = express();
+app.use(bodyParser.json());
+
+// Database setup! ------------------------------------------------------------
+var db;
+mongodb.MongoClient.connect('mongodb://admin:hasswa@ds063546.mlab.com:63546/almanac', function (err, database) {
+    if (err) {
+        console.log(err);
+        process.exit(1);
+    }
+
+    // Save db from callback for reuse!
+    db = database;
+    console.log("Database is ready to go!");
+
+    // Init the server
+    var server = app.listen(process.env.PORT || 3000, function () {
+        var port = server.address().port;
+        console.log("Server listening on " + port);
+    });
+});
+
+// Test server is up (GET http://ec2-54-70-44-156.us-west-2.compute.amazonaws.com:3000/)
+// app.get(path, callback)
+app.get('/', function (req, res) {
+    res.send('Server is up!');
+})
 
 // Database setup! ------------------------------------------------------------
 // mongodb://<dbuser>:<dbpassword>@ds063546.mlab.com:63546/almanac
-var db = mongojs('mongodb://admin:hasswa@ds063546.mlab.com:63546/almanac', ['places']);
+//var db = mongojs('mongodb://admin:hasswa@ds063546.mlab.com:63546/almanac', ['places']);
 
-// Routes! --------------------------------------------------------------------
-
-// Middleware to use for all requests
-// TBC: validate req, throw error if something wrong
-
+/*
 // Test route to makes sure server is up (GET http://localhost:3000/)
 server.get('/', function (req, res, next) {
 	console.log("GET '/'");
@@ -51,8 +74,9 @@ server.get('places', function (req, res, next) {
 server.get('/place/:_id', function (req, res, next) {
     console.log('GET /place/' + req.params._id);
     db.places.findOne({
-        _id: req.params._id
+        _id: ObjectID.createFromHexString(req.params._id)
     }, function (err, data) {
+        console.log(JSON.stringify(data));
         res.writeHead(200, {
             'Content-Type': 'application/json'
         });
@@ -78,7 +102,7 @@ server.post('/places', function (req, res, next) {
 // Update existing place (PUT http://localhost:3000/put/<name>)
 /* ----- /place PUT endpoint -----
 Effect: update existing place
-req.body.name = name of the place to update */
+req.body.name = name of the place to update
 server.put('/place/:name', function (req, res, next) {
     console.log('PUT /place/' + req.params.name);
     // get existing place
@@ -106,23 +130,7 @@ server.put('/place/:name', function (req, res, next) {
         });
     });
     return next();
-});
-
-/* ----- /place DELETE endpoint -----
-Effect: remove a place from almanac
-server.del('product/:name', function (req, res, next) {
-    console.log('In place DELETE');
-    db.places.remove({
-        name: req.params.name
-    }, function (err, data) {
-        res.writeHead(200, {
-            'Content-Type': 'application/json'
-        });
-        res.end(JSON.stringify(true));
-    });
-    return next();
-});
-*/
+}); */
 
 /* USING EXPRESS ROUTER AND MONGOOSE:
 /almanac/places routes -------------
@@ -152,9 +160,3 @@ router.route('/places')
             res.json({ message: 'Place created!' });
         });
     }); */
-
-
-// Start the server! ----------------------------------------------------------
-server.listen(port, function () {
-    console.log('Server listening on ' + port);
-});
