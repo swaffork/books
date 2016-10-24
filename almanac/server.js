@@ -47,11 +47,11 @@ server.get('places', function (req, res, next) {
     return next();
 });
 
-// Get a single place (GET http://localhost:3000/place/<name>)
-server.get('/place/:name', function (req, res, next) {
-    console.log('GET /place/' + req.params.name);
+// Get a single place (GET http://localhost:3000/place/<id>)
+server.get('/place/:_id', function (req, res, next) {
+    console.log('GET /place/' + req.params._id);
     db.places.findOne({
-        name: req.params.name
+        _id: req.params._id
     }, function (err, data) {
         res.writeHead(200, {
             'Content-Type': 'application/json'
