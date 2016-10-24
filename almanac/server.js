@@ -112,7 +112,13 @@ app.put("/places/:id", function (req, res) {
 });
 
 app.delete("/places/:id", function (req, res) {
-
+    db.collection(PLACES_COLLECTION).deleteOne({ _id: new ObjectID(req.params.id) }, function (err, result) {
+        if (err) {
+            handleError(res, err.mesage, "Failed to delete place");
+        } else {
+            res.status(204).end();
+        }
+    });
 });
 
 /*
