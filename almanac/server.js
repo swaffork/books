@@ -135,6 +135,24 @@ app.put("/places/:id", function (req, res) {
 });
 
 app.delete("/places/:id", function (req, res) {
+    console.log('deleting place');
+
+    // Change people's references to this place to NULL
+    console.log('looking for people to update');
+    db.collection(PEOPLE_COLLECTION).update(
+        { homeID: req.params.id }, // Query for people whose home this was
+        { $set: { homeID: "NULL" } }, // Remove reference to this place
+        { multi: true }, // Update all peope whose home this was
+        function (err, doc) {
+            if (err) {
+                handleError(res, "Could not update homeID reference", "Failed to delete place: could not update homeID reference", 400);
+            }
+            else {
+                console.log('Number of people updated:' + doc.nModified); // Log how many people records were affected
+            }
+    });
+
+    // Delete place
     db.collection(PLACES_COLLECTION).findAndModify(
         { _id: new ObjectID(req.params.id) }, // Query
         [['_id', 'asc']],
@@ -146,7 +164,6 @@ app.delete("/places/:id", function (req, res) {
         } else if (!doc["value"]) {
             handleError(res, "Invalid document ID", "Failed to delete place: invalid ID", 400);
         } else {
-            // look for people and update them
             // Send deleted place
             res.status(200).json(doc);
         }
@@ -278,7 +295,6 @@ app.delete("/people/:id", function (req, res) {
             } else if (!doc["value"]) {
                 handleError(res, "Invalid document ID", "Failed to delete person: invalid ID", 400);
             } else {
-                // update place?
                 // Send deleted person
                 res.status(200).json(doc);
             }
