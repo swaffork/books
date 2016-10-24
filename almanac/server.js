@@ -109,7 +109,6 @@ app.get("/places/:id", function (req, res, next) {
             handleError(res, "Invalid document ID", "Failed to get place: invalid ID", 400);
         } else {
             res.status(200).json(doc);
-            next();
         }
     });
 });
@@ -147,6 +146,7 @@ app.delete("/places/:id", function (req, res) {
         } else if (!doc["value"]) {
             handleError(res, "Invalid document ID", "Failed to delete place: invalid ID", 400);
         } else {
+            // look for people and update them
             // Send deleted place
             res.status(200).json(doc);
         }
@@ -175,14 +175,25 @@ app.post("/people", function (req, res) {
         !(req.body.alignment) ||
         !(req.body.trait) ||
         !(req.body.competency) ||
-        !(req.body.home)) {
+        !(req.body.homeID)) {
         handleError(res, "Invalid user input", "Must provide all people parameters.", 400);
     } else {
-        db.collection(PEOPLE_COLLECTION).insertOne(newPerson, function (err, doc) {
+        // check that home is valid and in database
+        db.collection(PLACES_COLLECTION).findOne({ _id: new ObjectID(req.body.homeID) }, function (err, doc) {
             if (err) {
-                handleError(res, err.message, "Failed to create new person.");
+                handleError(res, err.message, "Failed to create new person: invalid place ID");
+            } else if (!doc) {
+                handleError(res, "Invalid document ID", "Failed to create new person: invalid place ID", 400);
             } else {
-                res.status(201).json(doc.ops[0]);
+                // actually create the person!
+                db.collection(PEOPLE_COLLECTION).insertOne(newPerson, function (err, doc) {
+                    if (err) {
+                        handleError(res, err.message, "Failed to create new person.");
+                    } else {
+                        // update place?
+                        res.status(201).json(doc.ops[0]);
+                    }
+                });
             }
         });
     }
@@ -239,6 +250,7 @@ app.delete("/people/:id", function (req, res) {
             } else if (!doc["value"]) {
                 handleError(res, "Invalid document ID", "Failed to delete person: invalid ID", 400);
             } else {
+                // update place?
                 // Send deleted person
                 res.status(200).json(doc);
             }
