@@ -14,6 +14,7 @@ var mongodb = require("mongodb");
 var ObjectID = mongodb.ObjectID;
 
 var PLACES_COLLECTION = "places";
+//var PEOPLE_COLLECTION = "people";
 
 var app = express();
 app.use(bodyParser.json());
@@ -37,18 +38,12 @@ mongodb.MongoClient.connect('mongodb://admin:hasswa@ds063546.mlab.com:63546/alma
     });
 });
 
-// Test server is up (GET http://ec2-54-70-44-156.us-west-2.compute.amazonaws.com:3000/)
-// app.get(path, callback)
-app.get('/', function(req, res) {
-    res.send('Server is up!');
-})
-
 // Generic error handler
 function handleError(res, reason, message, code) {
     console.log("ERROR: " + reason);
     res.status(code || 500).json({ "error": message });
 }
-
+// PROBLEM IN USE PART???????
 // Check client's content type is application/json
 app.use('/', function (req, res, next) {
     var contentType = req.get('Content-Type');
@@ -57,7 +52,14 @@ app.use('/', function (req, res, next) {
     } else {
         // Set cache in header before sending response
         res.setHeader('Cache-Control', 'public, max-age=0');
+        next();
     }
+})
+
+// Test server is up (GET http://ec2-54-70-44-156.us-west-2.compute.amazonaws.com:3000/)
+// app.get(path, callback)
+app.get('/', function (req, res) {
+    res.send('Server is up!');
 })
 
 /* "/places" ------------------------------------------------------------------
@@ -65,7 +67,7 @@ app.use('/', function (req, res, next) {
  *  POST: creates a new place
  */
 
-app.get("/places", function (req, res) {
+app.get("/places", function (req, res) {    
     db.collection(PLACES_COLLECTION).find({}).toArray(function (err, docs) {
         if (err) {
             handleError(res.err.message, "Failed to get places.");
@@ -73,6 +75,7 @@ app.get("/places", function (req, res) {
             res.status(200).json(docs);
         }
     });
+    
 });
 
 app.post("/places", function (req, res) {
@@ -150,3 +153,9 @@ app.delete("/places/:id", function (req, res) {
         }
     });
 });
+
+/* "/people" ------------------------------------------------------------------
+ *  GET: finds all people
+ *  POST: creates a new person
+ */
+
