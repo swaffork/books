@@ -55,7 +55,8 @@ app.use('/', function (req, res, next) {
     if (contentType != "application/json") {
         handleError(res, "request did not specify application/json Content-Type", "Header: failed to specify application/json Content-Type", 415);
     } else {
-        next();
+        // Set cache in header before sending response
+        res.setHeader('Cache-Control', 'public, max-age=0');
     }
 })
 
@@ -98,7 +99,7 @@ app.post("/places", function (req, res) {
  *  PUT: update place by id
  *  DELETE: delete place by id
  */
-app.get("/places/:id", function (req, res) {
+app.get("/places/:id", function (req, res, next) {
     db.collection(PLACES_COLLECTION).findOne({ _id: new ObjectID(req.params.id) }, function (err, doc) {
         if (err) {
             handleError(res, err.message, "Failed to get place");
@@ -106,6 +107,7 @@ app.get("/places/:id", function (req, res) {
             handleError(res, "Invalid document ID", "Failed to get place: invalid ID", 400);
         } else {
             res.status(200).json(doc);
+            next();
         }
     });
 });
