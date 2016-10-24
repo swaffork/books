@@ -49,6 +49,16 @@ function handleError(res, reason, message, code) {
     res.status(code || 500).json({ "error": message });
 }
 
+// Check client's content type is application/json
+app.use('/', function (req, res, next) {
+    var contentType = req.get('Content-Type');
+    if (contentType != "application/json") {
+        handleError(res, "request did not specify application/json Content-Type", "Header: failed to specify application/json Content-Type", 415);
+    } else {
+        next();
+    }
+})
+
 /* "/places" ------------------------------------------------------------------
  *  GET: finds all places
  *  POST: creates a new place
@@ -93,7 +103,7 @@ app.get("/places/:id", function (req, res) {
         if (err) {
             handleError(res, err.message, "Failed to get place");
         } else if (!doc) {
-            handleError(res, "Invalid document ID", "Failed to get place: invalid ID");
+            handleError(res, "Invalid document ID", "Failed to get place: invalid ID", 400);
         } else {
             res.status(200).json(doc);
         }
@@ -113,7 +123,7 @@ app.put("/places/:id", function (req, res) {
         if (err) {
             handleError(res, err.message, "Failed to update place");
         } else if (!doc["value"]) {
-            handleError(res, "Invalid document ID", "Failed to update place: invalid ID");
+            handleError(res, "Invalid document ID", "Failed to update place: invalid ID", 400);
         } else {
             // Send updated place
             res.status(200).json(doc);
@@ -131,10 +141,9 @@ app.delete("/places/:id", function (req, res) {
         if (err) {
             handleError(res, err.mesage, "Failed to delete place");
         } else if (!doc["value"]) {
-            handleError(res, "Invalid document ID", "Failed to delete place: invalid ID");
+            handleError(res, "Invalid document ID", "Failed to delete place: invalid ID", 400);
         } else {
             // Send deleted place
-            console.log(doc);
             res.status(200).json(doc);
         }
     });
