@@ -92,6 +92,8 @@ app.get("/places/:id", function (req, res) {
     db.collection(PLACES_COLLECTION).findOne({ _id: new ObjectID(req.params.id) }, function (err, doc) {
         if (err) {
             handleError(res, err.message, "Failed to get place");
+        } else if (!doc) {
+            handleError(res, "Invalid document ID", "Failed to get place");
         } else {
             res.status(200).json(doc);
         }
