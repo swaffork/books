@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 
 // Database setup! ------------------------------------------------------------
 var db;
-mongodb.MongoClient.connect('mongodb://admin:hasswa@ds063546.mlab.com:63546/almanac', function (err, database) {
+mongodb.MongoClient.connect('mongodb://admin:hasswa@ds063546.mlab.com:63546/almanac', function(err, database) {
     if (err) {
         console.log(err);
         process.exit(1);
@@ -39,13 +39,61 @@ mongodb.MongoClient.connect('mongodb://admin:hasswa@ds063546.mlab.com:63546/alma
 
 // Test server is up (GET http://ec2-54-70-44-156.us-west-2.compute.amazonaws.com:3000/)
 // app.get(path, callback)
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
     res.send('Server is up!');
 })
 
-// Database setup! ------------------------------------------------------------
-// mongodb://<dbuser>:<dbpassword>@ds063546.mlab.com:63546/almanac
-//var db = mongojs('mongodb://admin:hasswa@ds063546.mlab.com:63546/almanac', ['places']);
+// Generic error handler
+function handleError(res, reason, message, code) {
+    console.log("ERROR: " + reason);
+    res.status(code || 500).json({ "error": message });
+}
+
+/* "/places" ------------------------------------------------------------------
+ *  GET: finds all places
+ *  POST: creates a new place
+ */
+
+app.get("/places", function (req, res) {
+
+});
+
+app.post("/places", function (req, res) {
+    var newPlace = req.body;
+    if (!(req.body.name 
+        || req.body.type 
+        || req.body.climate 
+        || req.body.terrain 
+        || req.body.danger 
+        || req.body.alignment)) {
+        handleError(res, "Invalid user input", "Must provide all place parameters.", 400);
+    }
+
+    db.collection(PLACES_COLLECTION).insertOne(newPlace, function (err, doc) {
+        if (err) {
+            handleError(res, err.message, "Failed to create new place.");
+        } else {
+            res.status(201).json(doc.ops[0]);
+        }
+    });
+});
+
+/* "/places/:id" --------------------------------------------------------------
+ *  GET: find place by id
+ *  PUT: update place by id
+ *  DELETE: delete place by id
+ */
+app.get("/places/:id", function (req, res) {
+
+});
+
+app.put("/places/:id", function (req, res) {
+
+});
+
+app.delete("/places/:id", function (req, res) {
+
+});
 
 /*
 // Test route to makes sure server is up (GET http://localhost:3000/)
