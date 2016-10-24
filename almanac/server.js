@@ -89,11 +89,26 @@ app.post("/places", function (req, res) {
  *  DELETE: delete place by id
  */
 app.get("/places/:id", function (req, res) {
-
+    db.collection(PLACES_COLLECTION).findOne({ _id: new ObjectID(req.params.id) }, function (err, doc) {
+        if (err) {
+            handleError(res, err.message, "Failed to get place");
+        } else {
+            res.status(200).json(doc);
+        }
+    });
 });
 
 app.put("/places/:id", function (req, res) {
+    var updateDoc = req.body;
+    delete updateDoc._id;
 
+    db.collection(PLACES_COLLECTION).updateOne({ _id: new ObjectID(req.params.id) }, updateDoc, function(err, doc) {
+        if (err) {
+            handleErrr(res, err.message, "Failed to update place");
+        } else {
+            res.status(204).end();
+        }
+    });
 });
 
 app.delete("/places/:id", function (req, res) {
