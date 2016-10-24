@@ -66,23 +66,22 @@ app.get("/places", function (req, res) {
 
 app.post("/places", function (req, res) {
     var newPlace = req.body;
-    if (!(req.body.name 
-        || req.body.type 
-        || req.body.climate 
-        || req.body.terrain 
-        || req.body.danger 
-        || req.body.alignment)) {
+    if (!(req.body.name) ||
+        !(req.body.type) ||
+        !(req.body.climate) ||
+        !(req.body.terrain) ||
+        !(req.body.danger) ||
+        !(req.body.alignment)) {
         handleError(res, "Invalid user input", "Must provide all place parameters.", 400);
-    }
-
-    db.collection(PLACES_COLLECTION).insertOne(newPlace, function (err, doc) {
-        if (err) {
-            handleError(res, err.message, "Failed to create new place.");
-        } else {
-            res.status(201).json(doc.ops[0]);
-        }
-    });
-});
+    } else {
+        db.collection(PLACES_COLLECTION).insertOne(newPlace, function (err, doc) {
+            if (err) {
+                handleError(res, err.message, "Failed to create new place.");
+            } else {
+                res.status(201).json(doc.ops[0]);
+            }
+        });
+    }});
 
 /* "/places/:id" --------------------------------------------------------------
  *  GET: find place by id
