@@ -47,7 +47,83 @@ server.get('places', function (req, res, next) {
     return next();
 });
 
-/* /almanac/places routes -------------
+// Get a single place (GET http://localhost:3000/place/<name>)
+server.get('/place/:name', function (req, res, next) {
+    console.log('GET /place/' + req.params.name);
+    db.places.findOne({
+        name: req.params.name
+    }, function (err, data) {
+        res.writeHead(200, {
+            'Content-Type': 'application/json'
+        });
+        res.end(JSON.stringify(data));
+    });
+    return next();
+});
+
+// Create a new place (POST http://localhost:3000/places)
+server.post('/places', function (req, res, next) {
+    console.log('In places POST');
+    var place = req.body;
+    db.places.save(place,
+        function (err, data) {
+            res.writeHead(200, {
+                'Content-Type': 'application/json'
+            });
+            res.end(JSON.stringify(data));
+        });
+    return next();
+});
+
+/* ----- /place PUT endpoint -----
+Effect: update existing place
+req.params.name = name of the place to update
+server.put('/place/:name', function (req, res, next) {
+    // get existing place
+    db.places.findOne({
+        name: req.params.name
+    }, function (err, data) {
+        // Server isn't aware of changes;
+        // merge req.params/place with existing server/place
+        var updPlace = {};
+        for (var i in data) {
+            updPlace[i] = data[i];
+        }
+        for (var i in req.params) {
+            updPlace[i] = req.params[i];
+        }
+        db.places.update({
+            name: req.params.name
+        }, updPlace, {
+            multi: false
+        }, function (err, data) {
+            res.writeHead(200, {
+                'Content-Type': 'application/json'
+            });
+            res.end(JSON.stringify(data));
+        });
+    });
+    return next();
+}); */
+
+/* ----- /place DELETE endpoint -----
+Effect: remove a place from almanac
+server.del('product/:name', function (req, res, next) {
+    console.log('In place DELETE');
+    db.places.remove({
+        name: req.params.name
+    }, function (err, data) {
+        res.writeHead(200, {
+            'Content-Type': 'application/json'
+        });
+        res.end(JSON.stringify(true));
+    });
+    return next();
+});
+*/
+
+/* USING EXPRESS ROUTER AND MONGOOSE:
+/almanac/places routes -------------
 router.route('/places')
     // Get all the places (GET http://localhost:3000/almanac/places)
     .get(function (req, res) {
@@ -75,85 +151,6 @@ router.route('/places')
         });
     }); */
 
-/* ----- /place/id GET endpoint 
-Effect: view a single place
-req.params.name = name of place
-
-server.get('/place/:name', function (req, res, next) {
-    console.log('In place/name GET')
-    db.entries.findOne({
-        name: req.params.name
-    }, function (err, data) {
-        res.writeHead(200, {
-            'Content-Type': 'application/json'
-        });
-        res.end(JSON.stringify(data));
-    });
-    return next();
-}); */
-
-/* ----- /places POST endpoint -----
-Effect: add a new place to almanac.
-req.params = place object send by client 
-server.post('/places', function (req, res, next) {
-    console.log('In places POST');
-    var place = req.params;
-    db.entries.save(place,
-        function (err, data) {
-            res.writeHead(200, {
-                'Content-Type': 'application/json'
-            });
-            res.end(JSON.stringify(data));
-        });
-    return next();
-}); */
-
-/* ----- /place PUT endpoint -----
-Effect: update existing place
-req.params.name = name of the place to update
-server.put('/place/:name', function (req, res, next) {
-    // get existing place
-    db.entries.findOne({
-        name: req.params.name
-    }, function (err, data) {
-        // Server isn't aware of changes;
-        // merge req.params/place with existing server/place
-        var updPlace = {};
-        for (var i in data) {
-            updPlace[i] = data[i];
-        }
-        for (var i in req.params) {
-            updPlace[i] = req.params[i];
-        }
-        db.entries.update({
-            name: req.params.name
-        }, updPlace, {
-            multi: false
-        }, function (err, data) {
-            res.writeHead(200, {
-                'Content-Type': 'application/json'
-            });
-            res.end(JSON.stringify(data));
-        });
-    });
-    return next();
-}); */
-
-/* ----- /place DELETE endpoint -----
-Effect: remove a place from almanac
-server.del('product/:name', function (req, res, next) {
-    console.log('In place DELETE');
-    db.entries.remove({
-        name: req.params.name
-    }, function (err, data) {
-        res.writeHead(200, {
-            'Content-Type': 'application/json'
-        });
-        res.end(JSON.stringify(true));
-    });
-    return next();
-});
-*/
 
 // Start the server! ----------------------------------------------------------
 server.listen(port, function () {
