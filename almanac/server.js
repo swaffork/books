@@ -220,22 +220,50 @@ app.get("/people/:id", function (req, res, next) {
 app.put("/people/:id", function (req, res) {
     var updateDoc = req.body;
     delete updateDoc._id;
-    
-    db.collection(PEOPLE_COLLECTION).findAndModify(
-        { _id: new ObjectID(req.params.id) }, // Query
-        [['_id', 'asc']], // Required sort order
-        { $set: updateDoc }, // Update only changed fields
-        { new: true }, // Return updated document as bson binary buffer
-        function (err, doc) {
+
+    // If changing character's home, check that new home is valid and in database
+    if (updateDoc.homeID) {
+        db.collection(PLACES_COLLECTION).findOne({ _id: new ObjectID(updateDoc.homeID) }, function (err, doc) {
             if (err) {
-                handleError(res, err.message, "Failed to update person");
-            } else if (!doc["value"]) {
-                handleError(res, "Invalid document ID", "Failed to update person: invalid ID", 400);
-            } else {
-                // Send updated person
-                res.status(200).json(doc);
+                handleError(res, err.message, "Failed to update person: invalid place ID");
+            } else if (!doc) {
+                handleError(res, "Invalid document ID", "Failed to update person: invalid place ID", 400);
+            }
+            else { // update the person with new home!
+                db.collection(PEOPLE_COLLECTION).findAndModify(
+                    { _id: new ObjectID(req.params.id) }, // Query
+                    [['_id', 'asc']], // Required sort order
+                    { $set: updateDoc }, // Update only changed fields
+                    { new: true }, // Return updated document as bson binary buffer
+                    function (err, doc) {
+                        if (err) {
+                            handleError(res, err.message, "Failed to update person");
+                        } else if (!doc["value"]) {
+                            handleError(res, "Invalid document ID", "Failed to update person: invalid ID", 400);
+                        } else {
+                            // Send updated person
+                            res.status(200).json(doc);
+                        }
+                    });
             }
         });
+    } else {
+        db.collection(PEOPLE_COLLECTION).findAndModify(
+            { _id: new ObjectID(req.params.id) }, // Query
+            [['_id', 'asc']], // Required sort order
+            { $set: updateDoc }, // Update only changed fields
+            { new: true }, // Return updated document as bson binary buffer
+            function (err, doc) {
+                if (err) {
+                    handleError(res, err.message, "Failed to update person");
+                } else if (!doc["value"]) {
+                    handleError(res, "Invalid document ID", "Failed to update person: invalid ID", 400);
+                } else {
+                    // Send updated person
+                    res.status(200).json(doc);
+                }
+            });
+    }
 });
 
 app.delete("/people/:id", function (req, res) {
