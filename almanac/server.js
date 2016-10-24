@@ -14,7 +14,7 @@ var mongodb = require("mongodb");
 var ObjectID = mongodb.ObjectID;
 
 var PLACES_COLLECTION = "places";
-//var PEOPLE_COLLECTION = "people";
+var PEOPLE_COLLECTION = "people";
 
 var app = express();
 app.use(bodyParser.json());
@@ -74,8 +74,7 @@ app.get("/places", function (req, res) {
         } else {
             res.status(200).json(docs);
         }
-    });
-    
+    });   
 });
 
 app.post("/places", function (req, res) {
@@ -95,7 +94,7 @@ app.post("/places", function (req, res) {
                 res.status(201).json(doc.ops[0]);
             }
         });
-    }});
+}});
 
 /* "/places/:id" --------------------------------------------------------------
  *  GET: find place by id
@@ -159,3 +158,89 @@ app.delete("/places/:id", function (req, res) {
  *  POST: creates a new person
  */
 
+app.get("/people", function (req, res) {
+    db.collection(PEOPLE_COLLECTION).find({}).toArray(function (err, docs) {
+        if (err) {
+            handleError(res.err.message, "Failed to get people.");
+        } else {
+            res.status(200).json(docs);
+        }
+    });
+});
+
+app.post("/people", function (req, res) {
+    var newPerson = req.body;
+    if (!(req.body.name) ||
+        !(req.body.occupation) ||
+        !(req.body.alignment) ||
+        !(req.body.trait) ||
+        !(req.body.competency) ||
+        !(req.body.home)) {
+        handleError(res, "Invalid user input", "Must provide all people parameters.", 400);
+    } else {
+        db.collection(PEOPLE_COLLECTION).insertOne(newPerson, function (err, doc) {
+            if (err) {
+                handleError(res, err.message, "Failed to create new person.");
+            } else {
+                res.status(201).json(doc.ops[0]);
+            }
+        });
+    }
+});
+
+/* "/people/:id" --------------------------------------------------------------
+ *  GET: find person by id
+ *  PUT: update person by id
+ *  DELETE: delete person by id
+ */
+app.get("/people/:id", function (req, res, next) {
+    db.collection(PEOPLE_COLLECTION).findOne({ _id: new ObjectID(req.params.id) }, function (err, doc) {
+        if (err) {
+            handleError(res, err.message, "Failed to get person");
+        } else if (!doc) {
+            handleError(res, "Invalid document ID", "Failed to get person: invalid ID", 400);
+        } else {
+            res.status(200).json(doc);
+            next();
+        }
+    });
+});
+
+app.put("/people/:id", function (req, res) {
+    var updateDoc = req.body;
+    delete updateDoc._id;
+    
+    db.collection(PEOPLE_COLLECTION).findAndModify(
+        { _id: new ObjectID(req.params.id) }, // Query
+        [['_id', 'asc']], // Required sort order
+        { $set: updateDoc }, // Update only changed fields
+        { new: true }, // Return updated document as bson binary buffer
+        function (err, doc) {
+            if (err) {
+                handleError(res, err.message, "Failed to update person");
+            } else if (!doc["value"]) {
+                handleError(res, "Invalid document ID", "Failed to update person: invalid ID", 400);
+            } else {
+                // Send updated person
+                res.status(200).json(doc);
+            }
+        });
+});
+
+app.delete("/people/:id", function (req, res) {
+    db.collection(PEOPLE_COLLECTION).findAndModify(
+        { _id: new ObjectID(req.params.id) }, // Query
+        [['_id', 'asc']],
+        {},
+        { remove: true },
+        function (err, doc) {
+            if (err) {
+                handleError(res, err.mesage, "Failed to delete person");
+            } else if (!doc["value"]) {
+                handleError(res, "Invalid document ID", "Failed to delete person: invalid ID", 400);
+            } else {
+                // Send deleted person
+                res.status(200).json(doc);
+            }
+        });
+});
