@@ -75,6 +75,7 @@ server.post('/places', function (req, res, next) {
     return next();
 });
 
+// Update existing place (PUT http://localhost:3000/put/<name>)
 /* ----- /place PUT endpoint -----
 Effect: update existing place
 req.params.name = name of the place to update
