@@ -93,7 +93,7 @@ app.get("/places/:id", function (req, res) {
         if (err) {
             handleError(res, err.message, "Failed to get place");
         } else if (!doc) {
-            handleError(res, "Invalid document ID", "Failed to get place");
+            handleError(res, "Invalid document ID", "Failed to get place: invalid ID");
         } else {
             res.status(200).json(doc);
         }
@@ -113,24 +113,29 @@ app.put("/places/:id", function (req, res) {
         if (err) {
             handleError(res, err.message, "Failed to update place");
         } else if (!doc["value"]) {
-            handleError(res, "Invalid document ID", "Failed to update place");
+            handleError(res, "Invalid document ID", "Failed to update place: invalid ID");
         } else {
-            // send updated place
-            console.log(doc["value"], doc["ok"]);
+            // Send updated place
             res.status(200).json(doc);
         }
     });
 });
 
 app.delete("/places/:id", function (req, res) {
-    db.collection(PLACES_COLLECTION).deleteOne({ _id: new ObjectID(req.params.id) }, function (err, result) {
+    db.collection(PLACES_COLLECTION).findAndModify(
+        { _id: new ObjectID(req.params.id) }, // Query
+        [['_id', 'asc']],
+        {},
+        { remove: true },
+        function (err, doc) {
         if (err) {
             handleError(res, err.mesage, "Failed to delete place");
-        } else if (1) {
-            // failed to update
+        } else if (!doc["value"]) {
+            handleError(res, "Invalid document ID", "Failed to delete place: invalid ID");
         } else {
-            // put in success message here?
-            res.status(204).end();
+            // Send deleted place
+            console.log(doc);
+            res.status(200).json(doc);
         }
     });
 });
