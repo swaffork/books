@@ -63,7 +63,7 @@ server.get('/place/:name', function (req, res, next) {
 
 // Create a new place (POST http://localhost:3000/places)
 server.post('/places', function (req, res, next) {
-    console.log('In places POST');
+    console.log('POST /places');
     var place = req.body;
     db.places.save(place,
         function (err, data) {
@@ -78,8 +78,9 @@ server.post('/places', function (req, res, next) {
 // Update existing place (PUT http://localhost:3000/put/<name>)
 /* ----- /place PUT endpoint -----
 Effect: update existing place
-req.params.name = name of the place to update
+req.body.name = name of the place to update */
 server.put('/place/:name', function (req, res, next) {
+    console.log('PUT /place/' + req.params.name);
     // get existing place
     db.places.findOne({
         name: req.params.name
@@ -90,8 +91,8 @@ server.put('/place/:name', function (req, res, next) {
         for (var i in data) {
             updPlace[i] = data[i];
         }
-        for (var i in req.params) {
-            updPlace[i] = req.params[i];
+        for (var i in req.body) {
+            updPlace[i] = req.body[i];
         }
         db.places.update({
             name: req.params.name
@@ -105,7 +106,7 @@ server.put('/place/:name', function (req, res, next) {
         });
     });
     return next();
-}); */
+});
 
 /* ----- /place DELETE endpoint -----
 Effect: remove a place from almanac
