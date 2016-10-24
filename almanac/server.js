@@ -55,7 +55,13 @@ function handleError(res, reason, message, code) {
  */
 
 app.get("/places", function (req, res) {
-
+    db.collection(PLACES_COLLECTION).find({}).toArray(function (err, docs) {
+        if (err) {
+            handleError(res.err.message, "Failed to get places.");
+        } else {
+            res.status(200).json(docs);
+        }
+    });
 });
 
 app.post("/places", function (req, res) {
