@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.sample.foo.simplewebapi" > <!-- ^ defines Anroid namespace: XML namespaces used to avoid element name conflicts -->
+
+  <uses-permission android:name="android.permission.INTERNET" /> <!-- Allows app to open network sockets -->
+  <!-- eventually have camera permission here I guess? -->
+
+  <application
+      android:allowBackup="true"
+      android:icon="@mipmap/ic_launcher"
+      android:label="@string/app_name"
+      android:theme="@style/AppTheme" >
+    <!-- ^ allow app to participate in backup and restore infrastructure; name app sources -->
+    
+    <activity
+        android:name=".MainActivity"
+        android:label="@string/title_activity_main" >
+      <intent-filter> <!-- Specifies types of intents that activity, service, or broadcast can respond to -->
+        <!-- Declares capabilities of parent component: what activity/service can do, what types of broadcasts a receiver can handle -->
+        <!-- Opens component to receiving intents of advertised type, filters out thsoe not meaningful -->
+          <action android:name="android.intent.action.MAIN" />         
+          <category android:name="android.intent.category.LUANCHER" />
+      </intent-filter>
+    </activity>
+  
+    </application>
+
+</manifest>
+
+<!-- WHAT IS THIS FILE?
+Every application must have manifest in its root directory. Provides essential
+information about app to Android system:
+-Java package for application
+-Components (activities, services, broadcast receivers, content providers) and
+their classes - LIKE HEADER FILE?
+-Processes that host the aplication components
+-Permissions: those to access API and those others need to interact with app
+-Instrumentation classes: provide profiling, other info as app runs (DEV NOT PROD)
+-Min level of Android API
+-Libraries app must be linked against-->
