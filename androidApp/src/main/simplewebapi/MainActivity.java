@@ -10,7 +10,7 @@ class RetrieveFeedTask extends AsyncTask<Void, Void, String> {
 	// Before expensive async task, show the progress circle:
 	protected void onPreExecute() {
 		progressBar.setVisibility(View.VISIBLE); 
-		responseView.setText("");
+		responseView.setText(""); // Clear contents of text view!
 	}
 
 	// Where we actually call to the API
@@ -20,7 +20,8 @@ class RetrieveFeedTask extends AsyncTask<Void, Void, String> {
 
 		try {
 			/* Set up and open a connection to make an API request:
-			URL built from supplied email and our own API key */
+			URL built from supplied email and our own API key.
+			Note that some web APIs support sending the key through an HTTP header to prevent snooping. */
 			URL url = new URL(API_URL + "email=" + email + "&apiKey=" + API_KEY);
 			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
