@@ -21,7 +21,9 @@ class RetrieveFeedTask extends AsyncTask<Void, Void, String> {
 		try {
 			/* Set up and open a connection to make an API request:
 			URL built from supplied email and our own API key.
-			Note that some web APIs support sending the key through an HTTP header to prevent snooping. */
+			Note that some web APIs support sending the key through an HTTP header to prevent snooping.
+			API_URL: "https://api.fullcontact.com/v2/person.json?";
+			API_KEY: "f34edbb1dc997da9" */
 			URL url = new URL(API_URL + "email=" + email + "&apiKey=" + API_KEY);
 			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
