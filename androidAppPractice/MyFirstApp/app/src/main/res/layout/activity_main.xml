@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- EditText:
+    * id: provides unique identifer for view which we can use to reference from app code;
+        "@" required when you're referring to any resource object from XML,
+        and "+" required when you're defing a resource ID for first time:
+        "@+<resource type>/<resource name>"
+    * layout_weight: specifying weight as > 1 for this view makes it fill whatever
+      space remains after all views are given space they require
+    * layout_width: set to "0dp" improves layout performance because system doesn't
+      have to calculate an ultimately irrelevant width (bc weight val requires
+      another width calc to fill remaining space)
+    * layout_height: set to "wrap_content" to specify
+        that view should be only as big as needed to fit contents of the view
+        (vs. filling the screen)
+    * hint: default string to display when string is empty. Refers to a
+        string resource defined in separate resource (strings.xml)
+    *** FOR TEXT IN UI, ALWAYS SPECIFY A STRING AS A RESOURCE! ***-->
+    <EditText android:id="@+id/edit_message"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/edit_message" />
+    <!-- Button:
+    * Doesn't need android:id attribute because NOT referenced from activity code
+    * onClick attribute tells sytem to call sendMessage() method in activity-->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_send"
+        android:onClick="sendMessage"/>
+</LinearLayout>
