@@ -33,14 +33,14 @@ public class MainActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         Button queryButton = (Button) findViewById(R.id.queryButton);
-        /*queryButton.setOnClickListener(new View.OnClickListener() {
+        queryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new RetrieveFeedTask().execute();
             }
-        });*/
+        });
     }
-/*
+
     class RetrieveFeedTask extends AsyncTask<Void, Void, String> {
         private Exception exception;
         String email = emailText.getText().toString();
@@ -83,5 +83,5 @@ public class MainActivity extends AppCompatActivity {
             responseView.setText(response);
         }
     }
-    */
+
 }
