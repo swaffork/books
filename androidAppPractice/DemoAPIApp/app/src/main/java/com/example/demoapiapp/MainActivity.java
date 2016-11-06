@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
             try {
                 URL url = new URL(API_URL + "email=" + email + "&apiKey=" + API_KEY);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                int responseCode = urlConnection.getResponseCode();
+                Log.i("Response code:", String.valueOf(responseCode));
                 try {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuilder stringBuilder = new StringBuilder();
