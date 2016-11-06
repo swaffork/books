@@ -11,9 +11,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.EmptyStackException;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,7 +59,12 @@ public class MainActivity extends AppCompatActivity {
                 URL url = new URL(API_URL + "email=" + email + "&apiKey=" + API_KEY);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 int responseCode = urlConnection.getResponseCode();
-                Log.i("Response code:", String.valueOf(responseCode));
+                Log.i("Response code", String.valueOf(responseCode));
+                if (responseCode != HttpsURLConnection.HTTP_OK) {
+                    urlConnection.disconnect();
+                    IOException e = new IOException();
+                    throw e;
+                }
                 try {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     StringBuilder stringBuilder = new StringBuilder();
