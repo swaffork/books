@@ -51,12 +51,4 @@
         android:layout_marginLeft="12dp"
         android:layout_alignBaseline="@id/condDescr"
         android:layout_toRightOf="@id/condDescr"/>
-    <!-- Button:
-    * Doesn't need android:id attribute because NOT referenced from activity code
-    * onClick attribute tells sytem to call sendMessage() method in activity-->
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_send"
-        android:onClick="sendMessage"/>
 </RelativeLayout>

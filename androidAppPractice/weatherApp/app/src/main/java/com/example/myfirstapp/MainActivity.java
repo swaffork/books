@@ -1,5 +1,8 @@
 package com.example.myfirstapp;
 
+import com.example.myfirstapp.Location;
+import com.example.myfirstapp.Weather;
+
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
