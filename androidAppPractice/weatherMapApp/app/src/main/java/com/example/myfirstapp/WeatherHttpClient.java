@@ -1,5 +1,9 @@
 package com.example.myfirstapp;
 
+import com.example.myfirstapp.Exceptions;
+import com.example.myfirstapp.Weather;
+import com.example.myfirstapp.Location;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -11,13 +15,12 @@ public class WeatherHttpClient {
 
     private static String API_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
     private static String API_KEY = "978c1079e8f399666c17af2e9c092eaf";
-    private static String IMG_URL = "http://openweathermap.org/img/w/";
+    public static int LOCATION_TIMEOUT = 5;
 
     public String getWeatherData(String location) {
         URL url = null;
         HttpURLConnection connection = null;
         InputStream is = null;
-        location = "London";
 
         try {
             // Make the request:
@@ -58,44 +61,5 @@ public class WeatherHttpClient {
         return null;
     }
 
-    public byte[] getImage(String imageCode) {
-        URL url = null;
-        HttpURLConnection connection = null;
-        InputStream is = null;
 
-        try {
-            // Make the request:
-            url = new URL(IMG_URL + imageCode);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            connection.connect();
-
-            // Read the response:
-            is = connection.getInputStream();
-            byte[] buffer = new byte[1024];
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-            while ( is.read(buffer) != -1 ) {
-                baos.write(buffer);
-            }
-            return baos.toByteArray();
-        }
-        catch(Throwable t) {
-            t.printStackTrace();
-        }
-        // Clean up:
-        finally {
-            try {
-                is.close();
-            }
-            catch(Throwable t) {}
-            try {
-                connection.disconnect();
-            }
-            catch(Throwable t) {}
-        }
-        return null;
-    }
 }
