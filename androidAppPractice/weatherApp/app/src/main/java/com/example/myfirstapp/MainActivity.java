@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         cityText = (TextView) findViewById(R.id.cityText);
         condDesc = (TextView) findViewById(R.id.condDescr);
         temp = (TextView) findViewById(R.id.temp);
-        imgView = (ImageView) findViewById(R.id.condIcon);
+        //imgView = (ImageView) findViewById(R.id.condIcon);
 
         // Async call to OpenWeather:
         JSONWeatherTask task = new JSONWeatherTask();
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 weather = JSONWeatherParser.getWeather(data);
-                weather.iconData = ((new WeatherHttpClient()).getImage(weather.currentCondition.getIcon()));
+                //weather.iconData = ((new WeatherHttpClient()).getImage(weather.currentCondition.getIcon()));
             }
             catch (JSONException e) {
                 e.printStackTrace();
@@ -70,12 +70,12 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Weather weather) {
             super.onPostExecute(weather);
 
-            if ( (weather.iconData != null) && (weather.iconData.length > 0) ) {
-                Bitmap image = BitmapFactory.decodeByteArray(weather.iconData, 0, weather.iconData.length); // data, offset, length
+            //if ( (weather.iconData != null) && (weather.iconData.length > 0) ) {
+                //Bitmap image = BitmapFactory.decodeByteArray(weather.iconData, 0, weather.iconData.length); // data, offset, length
                 cityText.setText(weather.location.getCity() + "," + weather.location.getCountry()); // City, Country
-                condDesc.setText(weather.currentCondition.getCondition() + "-" + weather.currentCondition.getDescr()); // Condition description
+                condDesc.setText(weather.currentCondition.getCondition() + "Conditions: " + weather.currentCondition.getDescr()); // Condition description
                 temp.setText("" + Math.round((weather.temperature.getTemp() - 273.15)) + "Celsius");
-            }
+            //}
         }
     }
 }
