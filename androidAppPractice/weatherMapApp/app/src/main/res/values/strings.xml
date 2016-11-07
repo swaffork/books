@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Weather!</string>
-    <string name="textView1">Insert the city name</string>
-    <string name="textView2">Results</string>
+    <string name="locationEditText">City name</string>
+    <string name="locationTextButton">Search</string>
 </resources>

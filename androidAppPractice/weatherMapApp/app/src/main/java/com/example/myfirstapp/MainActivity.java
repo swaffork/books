@@ -20,63 +20,30 @@ import org.json.JSONException;
 
 import static com.example.myfirstapp.R.id.condDescr;
 
-// *** not extends Activity?
 public class MainActivity extends AppCompatActivity {
-    public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
-    private TextView cityText;
-    private TextView condDesc;
-    private TextView temp;
-    private ImageView imgView;
+    public final static String LOCATION = "com.example.myfirstapp.LOCATION";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String city = "London, UK";
-
-        cityText = (TextView) findViewById(R.id.cityText);
-        condDesc = (TextView) findViewById(R.id.condDescr);
-        temp = (TextView) findViewById(R.id.temp);
-        //imgView = (ImageView) findViewById(R.id.condIcon);
-
-        // Async call to OpenWeather:
-        JSONWeatherTask task = new JSONWeatherTask();
-        task.execute(new String[]{city});
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }*/
-
-    private class JSONWeatherTask extends AsyncTask<String, Void, Weather> {
-
-        @Override
-        protected Weather doInBackground(String... params) {
-            Weather weather = new Weather();
-            String data = ((new WeatherHttpClient()).getWeatherData(params[0]));
-
-            try {
-                weather = JSONWeatherParser.getWeather(data);
-                //weather.iconData = ((new WeatherHttpClient()).getImage(weather.currentCondition.getIcon()));
-            }
-            catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return weather;
-        }
-
-        @Override
-        protected void onPostExecute(Weather weather) {
-            super.onPostExecute(weather);
-
-            //if ( (weather.iconData != null) && (weather.iconData.length > 0) ) {
-                //Bitmap image = BitmapFactory.decodeByteArray(weather.iconData, 0, weather.iconData.length); // data, offset, length
-                cityText.setText(weather.location.getCity() + ", " + weather.location.getCountry()); // City, Country
-                condDesc.setText(weather.currentCondition.getCondition() + " - " + weather.currentCondition.getDescr()); // Condition description
-                temp.setText((Math.round((weather.temperature.getTemp() - 273.15))) + " degrees C");
-            //}
-        }
+    /* Called when he the user clicks the Send button
+    * Note this method MUST be public, have a void return value, and have view
+    * as the only parameter. */
+    public void getWeather(View view) {
+        /* Intent is object that provides runtime binding between separate
+         * components (like two activities). Represents an app's "intent to do
+         * something."
+         *  this: Context parameter (Activity is subclass of Context)
+         *  .class: the class of app component where the system will deliver the Intent*/
+        Intent intent = new Intent(this, SearchLocationActivity.class);
+        EditText editText = (EditText) findViewById(R.id.edit_message);
+        String location = editText.getText().toString();
+        /* adds the EditText's value to the intent; we define the key as
+         * EXTRA_MESSAGE to retrieve the text value. */
+        intent.putExtra(LOCATION, location);
+        startActivity(intent);
     }
 }
