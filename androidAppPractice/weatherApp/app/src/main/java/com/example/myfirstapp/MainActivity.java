@@ -1,3 +1,4 @@
+// With much help from http://www.survivingwithandroid.com/2013/05/build-weather-app-json-http-android.html
 package com.example.myfirstapp;
 
 import com.example.myfirstapp.Location;
@@ -72,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
 
             //if ( (weather.iconData != null) && (weather.iconData.length > 0) ) {
                 //Bitmap image = BitmapFactory.decodeByteArray(weather.iconData, 0, weather.iconData.length); // data, offset, length
-                cityText.setText(weather.location.getCity() + "," + weather.location.getCountry()); // City, Country
-                condDesc.setText(weather.currentCondition.getCondition() + "Conditions: " + weather.currentCondition.getDescr()); // Condition description
-                temp.setText("" + Math.round((weather.temperature.getTemp() - 273.15)) + "Celsius");
+                cityText.setText(weather.location.getCity() + ", " + weather.location.getCountry()); // City, Country
+                condDesc.setText(weather.currentCondition.getCondition() + " - " + weather.currentCondition.getDescr()); // Condition description
+                temp.setText((Math.round((weather.temperature.getTemp() - 273.15))) + " degrees C");
             //}
         }
     }
