@@ -1,12 +1,16 @@
 package com.example.myfirstapp;
 
 import android.content.Intent;
-import android.os.Bundle;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class GPSDisplayWeatherActivity extends AppCompatActivity {
+import org.json.JSONException;
 
+public class GPSDisplayWeatherActivity extends AppCompatActivity {
     private TextView cityText;
     private TextView condDesc;
     private TextView temp;
@@ -18,6 +22,51 @@ public class GPSDisplayWeatherActivity extends AppCompatActivity {
 
         // Grab the intent that started the activity:
         Intent intent = getIntent();
-        cityText.setText("TBC");
+        String location = intent.getStringExtra(MainActivity.LOCATION);
+
+        // Lightly error check...
+        if (location == null || location.isEmpty()) {
+            location = "Corvallis";
+        }
+
+        // Populate results
+        cityText = (TextView) findViewById(R.id.cityText);
+        condDesc = (TextView) findViewById(R.id.condDescr);
+        temp = (TextView) findViewById(R.id.temp);
+
+        JSONWeatherTask task = new JSONWeatherTask();
+        task.execute(new String[]{location});
+    }
+
+    private class JSONWeatherTask extends AsyncTask<String, Void, Weather> {
+
+        @Override
+        protected Weather doInBackground(String... params) {
+            Weather weather = new Weather();
+            String data = ((new WeatherHttpClient()).getWeatherData(params[0]));
+
+            try {
+                weather = JSONWeatherParser.getWeather(data);
+                //weather.iconData = ((new WeatherHttpClient()).getImage(weather.currentCondition.getIcon()));
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return weather;
+        }
+
+        @Override
+        protected void onPostExecute(Weather weather) {
+            super.onPostExecute(weather);
+
+            if (weather == null) {
+                cityText.setText("Error!");
+            }
+            else {
+                cityText.setText(weather.location.getCity() + ", " + weather.location.getCountry()); // City, Country
+                condDesc.setText(weather.currentCondition.getCondition() + " - " + weather.currentCondition.getDescr()); // Condition description
+                temp.setText((Math.round((weather.temperature.getTemp() - 273.15))) + " degrees C");
+            }
+        }
     }
 }

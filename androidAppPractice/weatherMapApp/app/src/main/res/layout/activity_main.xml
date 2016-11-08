@@ -9,22 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin">
-    <!-- EditText:
-    * id: provides unique identifer for view which we can use to reference from app code;
-        "@" required when you're referring to any resource object from XML,
-        and "+" required when you're defing a resource ID for first time:
-        "@+<resource type>/<resource name>"
-    * layout_weight: specifying weight as > 1 for this view makes it fill whatever
-      space remains after all views are given space they require
-    * layout_width: set to "0dp" improves layout performance because system doesn't
-      have to calculate an ultimately irrelevant width (bc weight val requires
-      another width calc to fill remaining space)
-    * layout_height: set to "wrap_content" to specify
-        that view should be only as big as needed to fit contents of the view
-        (vs. filling the screen)
-    * hint: default string to display when string is empty. Refers to a
-        string resource defined in separate resource (strings.xml)
-    *** FOR TEXT IN UI, ALWAYS SPECIFY A STRING AS A RESOURCE! ***-->
+
     <EditText android:id="@+id/edit_location"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
