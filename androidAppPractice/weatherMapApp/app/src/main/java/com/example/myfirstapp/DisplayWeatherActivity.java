@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -60,10 +61,14 @@ public class DisplayWeatherActivity extends AppCompatActivity {
         protected void onPostExecute(Weather weather) {
             super.onPostExecute(weather);
 
-            cityText.setText(weather.location.getCity() + ", " + weather.location.getCountry()); // City, Country
-            condDesc.setText(weather.currentCondition.getCondition() + " - " + weather.currentCondition.getDescr()); // Condition description
-            temp.setText((Math.round((weather.temperature.getTemp() - 273.15))) + " degrees C");
-            //}
+            if (weather == null) {
+                cityText.setText("Error!");
+            }
+            else {
+                cityText.setText(weather.location.getCity() + ", " + weather.location.getCountry()); // City, Country
+                condDesc.setText(weather.currentCondition.getCondition() + " - " + weather.currentCondition.getDescr()); // Condition description
+                temp.setText((Math.round((weather.temperature.getTemp() - 273.15))) + " degrees C");
+            }
         }
     }
 

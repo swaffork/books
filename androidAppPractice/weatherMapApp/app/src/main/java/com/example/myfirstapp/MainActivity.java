@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         /* adds the EditText's value to the intent; we define the key as
          * LOCATION to retrieve the text value. */
         intent.putExtra(LOCATION, location);
+        editText.setText("");
         startActivity(intent);
     }
 }
