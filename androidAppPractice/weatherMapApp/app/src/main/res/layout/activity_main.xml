@@ -28,6 +28,7 @@
     <EditText android:id="@+id/edit_message"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:inputType="text"
         android:hint="@string/edit_message" />
     <!-- Button:
     * Doesn't need android:id attribute because NOT referenced from activity code

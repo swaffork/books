@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
-    public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+    public final static String LOCATION = "com.example.myfirstapp.LOCATION";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,12 +23,12 @@ public class MainActivity extends AppCompatActivity {
          * something."
          *  this: Context parameter (Activity is subclass of Context)
          *  .class: the class of app component where the system will deliver the Intent*/
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
+        Intent intent = new Intent(this, DisplayWeatherActivity.class);
         EditText editText = (EditText) findViewById(R.id.edit_message);
-        String message = editText.getText().toString();
+        String location = editText.getText().toString();
         /* adds the EditText's value to the intent; we define the key as
          * EXTRA_MESSAGE to retrieve the text value. */
-        intent.putExtra(EXTRA_MESSAGE, message);
+        intent.putExtra(LOCATION, location);
         startActivity(intent);
     }
 }
