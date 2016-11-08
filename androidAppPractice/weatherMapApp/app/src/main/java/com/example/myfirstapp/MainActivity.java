@@ -36,9 +36,6 @@ public class MainActivity extends AppCompatActivity {
     public void getWeatherByGPS(View view) {
         Intent intent = new Intent(this, GPSDisplayWeatherActivity.class);
         // get the long and lat
-
-        EditText editText = (EditText) findViewById(R.id.edit_location);
-        editText.setText("");
         startActivity(intent);
     }
 }

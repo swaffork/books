@@ -14,7 +14,7 @@ public class GPSDisplayWeatherActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_weather);
+        setContentView(R.layout.activity_gps_display_weather);
 
         // Grab the intent that started the activity:
         Intent intent = getIntent();
