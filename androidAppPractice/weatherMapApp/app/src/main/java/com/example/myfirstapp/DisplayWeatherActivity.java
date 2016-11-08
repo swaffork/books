@@ -27,4 +27,6 @@ public class DisplayWeatherActivity extends AppCompatActivity {
         // Add the TextView to the layout:
         layout.addView(textView);
     }
+
+
 }
