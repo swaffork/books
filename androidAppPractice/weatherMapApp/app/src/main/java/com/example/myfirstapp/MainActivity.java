@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.edit_message);
         String location = editText.getText().toString();
         /* adds the EditText's value to the intent; we define the key as
-         * EXTRA_MESSAGE to retrieve the text value. */
+         * LOCATION to retrieve the text value. */
         intent.putExtra(LOCATION, location);
         startActivity(intent);
     }

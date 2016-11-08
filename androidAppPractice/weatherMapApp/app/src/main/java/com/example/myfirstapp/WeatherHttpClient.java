@@ -1,10 +1,13 @@
 package com.example.myfirstapp;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class WeatherHttpClient {
 
@@ -25,6 +28,14 @@ public class WeatherHttpClient {
             connection.setDoInput(true);
             connection.setDoOutput(true);
             connection.connect();
+
+            // CHECK FOR ERRORS:
+            int responseCode = connection.getResponseCode();
+            if (responseCode != HttpsURLConnection.HTTP_OK) {
+                connection.disconnect();
+                IOException e = new IOException();
+                throw e;
+            }
 
             // Read the response:
             StringBuffer buffer = new StringBuffer();
