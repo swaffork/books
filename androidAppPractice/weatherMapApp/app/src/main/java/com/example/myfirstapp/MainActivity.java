@@ -17,14 +17,14 @@ public class MainActivity extends AppCompatActivity {
     /* Called when he the user clicks the Send button
     * Note this method MUST be public, have a void return value, and have view
     * as the only parameter. */
-    public void sendMessage(View view) {
+    public void getWeatherByCity(View view) {
         /* Intent is object that provides runtime binding between separate
          * components (like two activities). Represents an app's "intent to do
          * something."
          *  this: Context parameter (Activity is subclass of Context)
          *  .class: the class of app component where the system will deliver the Intent*/
         Intent intent = new Intent(this, DisplayWeatherActivity.class);
-        EditText editText = (EditText) findViewById(R.id.edit_message);
+        EditText editText = (EditText) findViewById(R.id.edit_location);
         String location = editText.getText().toString();
         /* adds the EditText's value to the intent; we define the key as
          * LOCATION to retrieve the text value. */

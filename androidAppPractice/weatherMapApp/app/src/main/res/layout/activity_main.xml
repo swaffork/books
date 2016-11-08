@@ -25,7 +25,7 @@
     * hint: default string to display when string is empty. Refers to a
         string resource defined in separate resource (strings.xml)
     *** FOR TEXT IN UI, ALWAYS SPECIFY A STRING AS A RESOURCE! ***-->
-    <EditText android:id="@+id/edit_message"
+    <EditText android:id="@+id/edit_location"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:inputType="text"
@@ -37,5 +37,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_send"
-        android:onClick="sendMessage"/>
+        android:onClick="getWeatherByCity"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/location_send"
+        android:onClick="getWeatherByCity"/>
 </LinearLayout>
