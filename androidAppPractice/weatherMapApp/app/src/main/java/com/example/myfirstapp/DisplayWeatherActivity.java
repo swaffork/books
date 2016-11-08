@@ -24,18 +24,16 @@ public class DisplayWeatherActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String location = intent.getStringExtra(MainActivity.LOCATION);
 
-        /* Programmatically create a TextView, set its size & message:
-        TextView textView = new TextView(this);
-        textView.setTextSize(40);
-        textView.setText(location);
-        ViewGroup layout = (ViewGroup) findViewById(R.id.activity_display_weather);
-        // Add the TextView to the layout:
-        layout.addView(textView); */
+        // Lightly error check...
+        if (location == null || location.isEmpty()) {
+            location = "Corvallis";
+        }
 
-        // Populate results?
+        // Populate results
         cityText = (TextView) findViewById(R.id.cityText);
         condDesc = (TextView) findViewById(R.id.condDescr);
         temp = (TextView) findViewById(R.id.temp);
+
         JSONWeatherTask task = new JSONWeatherTask();
         task.execute(new String[]{location});
     }
