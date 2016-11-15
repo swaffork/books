@@ -1,0 +1,4 @@
+namenode_public_dns => ec2-35-163-86-211.us-west-2.compute.amazonaws.com
+datanode1_public_dns => ec2-35-163-251-131.us-west-2.compute.amazonaws.com
+datanode2_public_dns => ec2-35-164-42-92.us-west-2.compute.amazonaws.com
+datanode3_public_dns => ec2-35-161-211-21.us-west-2.compute.amazonaws.com
