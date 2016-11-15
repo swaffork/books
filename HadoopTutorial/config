@@ -1,0 +1,19 @@
+Host namenode
+  HostName ec2-35-163-86-211.us-west-2.compute.amazonaws.com
+  User ubuntu
+  IdentityFile ~/.ssh/hadoopCluster.pem
+  
+Host datanode1
+  HostName ec2-35-163-251-131.us-west-2.compute.amazonaws.com
+  User ubuntu
+  IdentityFile ~/.ssh/hadoopCluster.pem
+
+Host datanode2
+  HostName ec2-35-164-42-92.us-west-2.compute.amazonaws.com
+  User ubuntu
+  IdentityFile ~/.ssh/hadoopCluster.pem
+  
+Host datanode3
+  HostName ec2-35-161-211-21.us-west-2.compute.amazonaws.com
+  User ubuntu
+  IdentityFile ~/.ssh/hadoopCluster.pem
