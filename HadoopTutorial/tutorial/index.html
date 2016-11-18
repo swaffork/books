@@ -56,7 +56,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                         <a class="page-scroll" href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#setup1">Getting setup1</a>
+                        <a class="page-scroll" href="#setup1">Setting Up</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#services">Getting setup2</a>
@@ -77,14 +77,46 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
         <!-- /.container -->
     </nav>
 
-    <!-- Intro Section -->
-    <section id="intro" class="intro-section">
+    <!-- Intro: Hadoop Section -->
+    <section id="intro1" class="intro-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <h1>What's Hadoop?</h1>
-                    <p><strong>Hadoop</strong> is a lorem ipsum <code>example.js</code> and <code>example.java</code> files. Check out link.</p>
-                    <a class="btn btn-default page-scroll" href="#about">Let's get started!</a>
+                    <p>
+                        <strong>Hadoop</strong> is an open-source framework for distributed storage and processing of big-data sets.
+                    </p>
+                    <br />
+                    <p>
+                        Hadoop has two main pieces: storage and processing. The <strong>Hadoop Distributed File System (HDFS)</strong> comprises the storage part; this system splits files into pieces and stores them redudantly on relatively cheap machines (known as <strong>DataNodes</strong>); access to these datanodes is controlled by one <strong>NameNode</strong> which hosts the file system index. Data is replicated across multiple datanodes for relaibility. By indexing and tracking data across a cluster of servers, it enables the processing of lots of data. Like, <em>lots</em>.
+                    </p>
+                    <img src="img/architecture.jpg" width="225" />
+                    <p>
+                        The processing part of Hadoop is the <strong>MapReduce Engine</strong>. The MapReduce framework consists of a master ResourceManager and a worker NodeManager on each node. Client applications submit MapReduce jobs to a JobTracker; each job splits the input data into blocks which are processed in parallel by <strong>map tasks</strong>. The output of all of the map tasks is sorted by the MapReduce framework and input into <strong>reduce tasks</strong>.
+                    </p>
+                    <a class="btn btn-default page-scroll" href="#intro2">Hold up. What's MapReduce?</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Intro: MapReduce Section -->
+    <section id="intro2" class="intro-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>MapReduce</h1>
+                    <p>
+                        <strong>MapReduce</strong> is ...
+                    </p>
+                    <br />
+                    <p>
+                        
+                    </p>
+                    <p>
+                        MapReduce
+                    </p>
+                    <a class="btn btn-default page-scroll" href="#setup1">Let's get started!</a>
                 </div>
             </div>
         </div>
@@ -96,6 +128,10 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
             <div class="row">
                 <div class="col-lg-12">
                     <h1>Setting Up</h1>
+                    <p>
+                        To start with, we're going to need an AWS EC2 account.
+                        <code>example.js</code>
+                    </p>
                 </div>
             </div>
         </div>
