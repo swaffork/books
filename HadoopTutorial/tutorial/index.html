@@ -90,6 +90,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                     <p>
                         Hadoop has two main pieces: storage and processing. The <strong>Hadoop Distributed File System (HDFS)</strong> comprises the storage part; this system splits files into pieces and stores them redudantly on relatively cheap machines (known as <strong>DataNodes</strong>); access to these datanodes is controlled by one <strong>NameNode</strong> which hosts the file system index. Data is replicated across multiple datanodes for relaibility. By indexing and tracking data across a cluster of servers, it enables the processing of lots of data. Like, <em>lots</em>.
                     </p>
+                    <!-- TODO: replace this image and move this one down -->
                     <img src="img/architecture.jpg" width="225" />
                     <p>
                         The processing part of Hadoop is the <strong>MapReduce Engine</strong>. The MapReduce framework consists of a master ResourceManager and a worker NodeManager on each node. Client applications submit MapReduce jobs to a JobTracker; each job splits the input data into blocks which are processed in parallel by <strong>map tasks</strong>. The output of all of the map tasks is sorted by the MapReduce framework and input into <strong>reduce tasks</strong>.
@@ -105,18 +106,40 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>MapReduce</h1>
+                    <h3>MapReduce simplified (sort of)</h3>
                     <p>
-                        <strong>MapReduce</strong> is ...
+                        <strong>MapReduce</strong> is a programming model that decomposes data sets into subsets and then operates on those subsets in a <em>parallel</em> manner. This model operates by using a <strong>map function</strong> to filter and sort key-value pairs to yield a new set of key-value pairs, which are then merged in a <strong>reduce function</strong> to yield a final set of key-value pairs.
                     </p>
-                    <br />
+                    <!-- TODO: CODE: MapReduceExample1-->
+                    <h3>When would you want to use MapReduce?</h3>
                     <p>
-                        
+                        When you have lots of data - like, Big Data - like, <em>quintillions of bytes of data</em> that you can process in parallel across multiple machines, MapReduce is a good choice.
+                    </p>
+                    <p>
+                        TODO: FOR EXAMPLE!
+                    </p>
+                    <p>
+                        So if you've got data that fits on a single machine's main memory, or a process that's pretty quick, or a process that is iterative (such as machine learning), MapReduce might not be the right choice.
                     </p>
                     <p>
                         MapReduce
                     </p>
                     <a class="btn btn-default page-scroll" href="#setup1">Let's get started!</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Intro: Hadoop's MapReduce Section -->
+    <section id="intro3" class="intro-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>hadoooop</h1>
+                    <p>
+                        how hadoop things?
+                        <code>example.js</code>
+                    </p>
                 </div>
             </div>
         </div>
@@ -159,12 +182,16 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
         </div>
     </section>
 
-    <!-- Resources Section -->
+    <!-- Resources Section - TODO: fix list styling! -->
     <section id="resources" class="resources-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <h1>Resources Section</h1>
+                    <ul>
+                        <li>http://deltarho.org/docs-datadr</li>
+                        <li>http://research.google.com/archive/mapreduce.html</li>
+                    </ul>
                 </div>
             </div>
         </div>
