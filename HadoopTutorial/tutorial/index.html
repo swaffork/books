@@ -1,5 +1,5 @@
 ﻿<!-- DOCTYPE -->
-<!-- CS 496 How-To: A Hadoop Tutorial
+<!-- CS 496 How-To: A MapReduce / Hadoop Tutorial
 Site design help from:
 https://designmodo.com/bootstrap-4-tutorial/
 https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
@@ -11,10 +11,10 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CS 496 How-To: A Hadoop Tutorial">
+    <meta name="description" content="CS 496 How-To: A MapReduce & Hadoop Tutorial">
     <meta name="author" content="Kendra Swafford">
 
-    <title>Hadoop How-To</title>
+    <title>CS496 How-To</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -45,7 +45,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">Getting Started With Hadoop</a>
+                <a class="navbar-brand page-scroll" href="#page-top">Getting Started With MapReduce and Hadoop</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -56,13 +56,10 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                         <a class="page-scroll" href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#setup1">Setting Up</a>
+                        <a class="page-scroll" href="#intro1">Overview</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#services">Getting setup2</a>
-                    </li>
-					<li>
-                        <a class="page-scroll" href="#services">Getting setup2</a>
+                        <a class="page-scroll" href="#setup1">Setting Up</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
@@ -77,32 +74,25 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
         <!-- /.container -->
     </nav>
 
-    <!-- Intro: Hadoop Section -->
-    <section id="intro1" class="intro-section">
+    <!-- Intro Section -->
+    <section id="intro0" class="intro-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>What's Hadoop?</h1>
+                    <h1>What's this?</h1>
                     <p>
-                        <strong>Hadoop</strong> is an open-source framework for distributed storage and processing of big-data sets.
+                        This site is intended to be a brief overview of big data and the MapReduce model, an introduction to Hadoop, and a step-by-step for setting up
+                        a multinode Hadoop cluster with AWS.
                     </p>
-                    <br />
-                    <p>
-                        Hadoop has two main pieces: storage and processing. The <strong>Hadoop Distributed File System (HDFS)</strong> comprises the storage part; this system splits files into pieces and stores them redudantly on relatively cheap machines (known as <strong>DataNodes</strong>); access to these datanodes is controlled by one <strong>NameNode</strong> which hosts the file system index. Data is replicated across multiple datanodes for relaibility. By indexing and tracking data across a cluster of servers, it enables the processing of lots of data. Like, <em>lots</em>.
-                    </p>
-                    <!-- TODO: replace this image and move this one down -->
-                    <img src="img/architecture.jpg" width="225" />
-                    <p>
-                        The processing part of Hadoop is the <strong>MapReduce Engine</strong>. The MapReduce framework consists of a master ResourceManager and a worker NodeManager on each node. Client applications submit MapReduce jobs to a JobTracker; each job splits the input data into blocks which are processed in parallel by <strong>map tasks</strong>. The output of all of the map tasks is sorted by the MapReduce framework and input into <strong>reduce tasks</strong>.
-                    </p>
-                    <a class="btn btn-default page-scroll" href="#intro2">Hold up. What's MapReduce?</a>
+                    <p>TODO: STRUCTURE</p>
+                    <a class="btn btn-default page-scroll" href="#intro1">What's MapReduce?</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Intro: MapReduce Section -->
-    <section id="intro2" class="intro-section">
+    <section id="intro1" class="intro-section2">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -110,21 +100,79 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                     <p>
                         <strong>MapReduce</strong> is a programming model that decomposes data sets into subsets and then operates on those subsets in a <em>parallel</em> manner. This model operates by using a <strong>map function</strong> to filter and sort key-value pairs to yield a new set of key-value pairs, which are then merged in a <strong>reduce function</strong> to yield a final set of key-value pairs.
                     </p>
-                    <!-- TODO: CODE: MapReduceExample1-->
+                    <img src="img/dataflow.jpg" />
                     <h3>When would you want to use MapReduce?</h3>
                     <p>
-                        When you have lots of data - like, Big Data - like, <em>quintillions of bytes of data</em> that you can process in parallel across multiple machines, MapReduce is a good choice.
+                        When you have lots of data - like, Big Data - like, <em>quintillions of bytes</em> of data that you can process in parallel across multiple machines, MapReduce is a good choice.
+                        Likewise, if you've got data that fits on a single machine's main memory, or a process that's pretty quick, or a process that is iterative, such as machine learning, MapReduce might not be the right choice.
+                    </p>
+                    <img src="img/Social_Network_Analysis_Visualization.png" width="300" /> <br />
+                    <a class="btn btn-default page-scroll" href="#example1">Let's see an example!</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MapReduceExample1-->
+    <section id="example1" class="intro-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>MapReduce Wikipedia Example: How Many Friends?</h3>
+                    <p>
+                        Say we've collected some data on around one billion people. Specifically, we know each person's <strong>age</strong> and <strong>number of friends</strong>; what we'd like to learn from this data is how aging affects the average number of friends a person has.
+                        So the <em>processing</em> algorithm we're interested in here might look loosely like this:
+                    </p>
+                    <script src="https://gist.github.com/swaffork/be4e0ddbd60a7df09c21fe59fc29197e.js"></script>
+                    <p>
+                        Now remember, we're looking at <em>1 billion</em> records, and we've got a task (taking the average number of friends) that can be parallelized - that is, finding the average number of friends that 8 year olds have can be performed at the same time as finding the average number of friends that 72 year olds have.
+                        This means that, by using the MapReduce model, we can split our data across nodes (the <strong>map</strong> step), process the data subsets in parallel, and then combine the results (the <strong>reduce</strong> step). How efficient!
+                    </p>
+                    <a class="btn btn-default page-scroll" href="#example2">Neat! So what would that look like?</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TODO: CODE: MapReduceExample2-->
+    <section id="example2" class="intro-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>So first, we'll divide this set of one billion people into subsets of around one million people and have each datanode map each person's age and number of friends into records (which is a bit like tallying, where age is the key and number of friends is the value):</p>
+                    <script src="https://gist.github.com/swaffork/c69afc4af8dd6f59dcf4489f34e1c68c.js"></script>
+                    <p>Now that we have our data <strong>mapped</strong> to the (key, value) pairs we're interested in, we can give each datanode a subpopulation on which to <strong>reduce</strong> the subpopulation by the average number of friends:</p>
+                    <script src="https://gist.github.com/swaffork/c5c2526ad7a70d49c97354cf2d54884c.js"></script>
+                    <p>
+                        And now we have the data we wanted!
+                        We've turned an unsorted population dataset of one billion people into a tidy number-of-friends-by-age collection.
                     </p>
                     <p>
-                        TODO: FOR EXAMPLE!
+                        Now that we've got an understanding of the MapReduce model...
+                    </p>
+                    <a class="btn btn-default page-scroll" href="#intro2">On to Hadoop!</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Intro: Hadoop Section -->
+    <section id="intro2" class="intro-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>What's Hadoop?</h1>
+                    <p>
+                        <strong>Hadoop</strong> is an open-source framework for distributed storage and processing of big-data sets.
+                    </p>
+                    <img src="img/elephant.png" width="300" />
+                    <p>
+                        Hadoop has two main pieces: storage and processing. The <strong>Hadoop Distributed File System (HDFS)</strong> comprises the storage part; this system splits files into pieces and stores them redudantly on relatively cheap machines (known as <strong>DataNodes</strong>); access to these datanodes is controlled by one <strong>NameNode</strong> which hosts the file system index. Data is replicated across multiple datanodes for relaibility. By indexing and tracking data across a cluster of servers, it enables the processing of lots of data. Like, <em>lots</em>.
                     </p>
                     <p>
-                        So if you've got data that fits on a single machine's main memory, or a process that's pretty quick, or a process that is iterative (such as machine learning), MapReduce might not be the right choice.
+                        The processing part of Hadoop is the <strong>MapReduce Engine</strong>. The MapReduce framework consists of a master ResourceManager and a worker NodeManager on each node. Client applications submit MapReduce jobs to a JobTracker; each job splits the input data into blocks which are processed in parallel by <strong>map tasks</strong>. The output of all of the map tasks is sorted by the MapReduce framework and input into <strong>reduce tasks</strong>.
                     </p>
-                    <p>
-                        MapReduce
-                    </p>
-                    <a class="btn btn-default page-scroll" href="#setup1">Let's get started!</a>
+                    <a class="btn btn-default page-scroll" href="#intro3">Tell me more!</a>
                 </div>
             </div>
         </div>
@@ -135,11 +183,44 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>hadoooop</h1>
+                    <h3>MapReduce - Hadoop Style</h3>
                     <p>
-                        how hadoop things?
-                        <code>example.js</code>
+                        The Hadoop framework divides requests on huge, overwhelming datasets into tasks and keeps track of the data in a replicated, distributed way. Just as we saw above with MapReduce in general, Hadoop breaks input into smaller sets of data, which are processed on datanodes.
                     </p>
+                    <img src="img/architecture.jpg" width="225" />
+                    <p>
+                        A request is known as a "job", which (since we're working with Java) includes the JAR files and classes required to process the data. This job must include a main class with a datastructure that carries the configuration for the data we're working with.
+                        Jobs can then be run by being submitted to Hadoop's JobTracker, which will distribute the map- and reduce-steps as tasks to the datanodes. These tasks are executed in parallel by the TaskTrackers.
+                    </p>
+                    <p>
+                        One really important thing to understand here is that when Hadoo's MapReduce Engine pushes work out to datanodes, it does so by keeping processing tasks as close as possible to the data which is being processed in order to reduce network traffic.
+                        Why? Because there is a tradeoff between computation and communication costs!
+                    </p>
+                    <a class="btn btn-default page-scroll" href="#intro4">How does Hadoop manage that?</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Intro: Data Locality Section -->
+    <section id="intro4" class="intro-section2">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>A closer look at the JobTracker</h3>
+                    <p>
+                        The JobTracker communicates with the central NameNode to find out which node has which data.
+                        Then, depending on node availability, the JobTracker assigns tasks to nodes that are as close as possible to the data.
+                        A central tenant of Hadoop is that "moving computation is cheaper than moving data":
+                        since we're talking <em>big data</em> here, it's better to move the task to the data, rather than moving mass amounts of data across the distributed file system. This helps avoid network congestion, which helps keep the processing time down.
+                    </p>
+                    <img src="img/JobTask_Tracker Image.png" width="500"/>
+                    <p>
+                        Regarding failure recovery, while the NameNode <em>is</em> a single point of failure, none of the individual datanodes are. Their health is monitored through a mechanism called a <strong>heartbeat</strong>.
+                        If a node does not check in with a heartbeat over a certain interval, it is presumed to have failed. The JobTracker will then assign that node's task to a different node.
+                        Similarly, if a node is aware that its task has failed, it notifies the JobTracker, and depending on the type of failure, the task will either be reassigned or marked as unreliable/vulnerable.
+                    </p>
+                    <a class="btn btn-default page-scroll" href="#setup1">Sounds good! Ready to get set up?</a>
                 </div>
             </div>
         </div>
@@ -152,7 +233,8 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                 <div class="col-lg-12">
                     <h1>Setting Up</h1>
                     <p>
-                        To start with, we're going to need an AWS EC2 account.
+                        So we're gonna need some nodes in a cluster...
+                        To start with, we're going to need an AWS EC2 account. <a href="#">go here for how to aws ec2</a>
                         <code>example.js</code>
                     </p>
                 </div>
@@ -189,8 +271,10 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                 <div class="col-lg-12">
                     <h1>Resources Section</h1>
                     <ul>
+                        <li>https://wiki.apache.org/hadoop/ImportantConcepts</li>
                         <li>http://deltarho.org/docs-datadr</li>
                         <li>http://research.google.com/archive/mapreduce.html</li>
+                        <li>https://en.wikipedia.org/wiki/MapReduce</li>
                     </ul>
                 </div>
             </div>

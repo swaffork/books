@@ -38,6 +38,13 @@ of those sections to manage the look and feel of the site. */
     background: #fff;
 }
 
+.intro-section2 {
+    height: 100%;
+    padding-top: 100px;
+    text-align: center;
+    background: #fff;
+}
+
 .setup-section {
     height: 100%;
     padding-top: 150px;
