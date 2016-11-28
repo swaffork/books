@@ -65,7 +65,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                         <a class="page-scroll" href="#job1">Running a Job</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#TODO">Next Steps</a>
+                        <a class="page-scroll" href="#nextsteps">Next Steps</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#resources">Resources</a>
@@ -82,19 +82,24 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <img src="img/comic.jpg" />
-                    <h1>What's this?</h1>
+                    <h2>Hadoop How-To</h2>
                     <p>
-                        This site is intended to be a brief overview of big data and the MapReduce model, an introduction to Hadoop, and a step-by-step for setting up
-                        a multinode Hadoop cluster with AWS.
+                        This site is intended to be an introduction to <a href="http://hadoop.apache.org/">Hadoop</a> with a brief overview of big data and the MapReduce model,
+                        followed by a step-by-step for setting up a multinode Hadoop cluster with <a href="https://aws.amazon.com/ec2/">AWS EC2</a> and running a demo MapReduce job.
+                        This how-to is intended to be for those with minimal programming experience. Some Java and operating systems basics will be helpful, but aren't necessary.
                     </p>
-                    <p>TODO: PREREQS - Java, some OS know-how, </p>
+                    <img src="img/Hadoop-and-Big-Data.jpg" width="500" />
+
+                    <h3>Why this how-to?</h3>
                     <p>
-                        TODO: STRUCTURE - there are tutorials for setting up AWS EC2 machine, for setting up multinode cluster,
-                        for running job on multinode cluster, haven't found a coherent ***TODO actualHadooplinkhere start-to-finish process for beginners
-                        WHY THIS HOW TO VS OTHERS?:
-                        most classes cost money/assume you're already working as a data scientist, while free tutorials give clear steps to set up, but don't provide background on the <em>why</em> you're doing what you're doing.
-                        If looking for a faster get-up-and-running without the OS management, consider the walkthrough for setting up Hadoop on Amazon Elastic MapReduce <a href="https://aws.amazon.com/emr/details/hadoop/">here</a>.
+                        While there are tutorials for setting up an AWS EC2 virtual machine, and there are tutorials for setting up single and multinode Hadoop clusters,
+                        and there are tutorials for running MapReduce jobs on a single-node cluster, at the time of writing this how-to, I haven't yet found a coherent start-to-finish process for beginners.
+                        There are classes that 1) cost money and 2) assume you're already working as a data scientist;
+                        in contrast, there are free tutorials that will get you set up quickly, but don't provide background on the <em>why</em> behind what you're doing.
+                        If you are looking for a quick get-up-and-running without the details, consider the walkthrough for setting up Hadoop on Amazon Elastic MapReduce <a href="https://aws.amazon.com/emr/details/hadoop/">here</a>.
+                    </p>
+                    <p>
+                        Otherwise, let's get started!
                     </p>
                     <a class="btn btn-default page-scroll" href="#intro1">What's MapReduce?</a>
                 </div>
@@ -338,7 +343,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
     </section>
 
     <!-- Setup: SSH-ing Into Instances -->
-    <section id="setup3" class="setup-section2">
+    <section id="setup3" class="setup-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -361,8 +366,21 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                             To make it nice and simple for that namenode-to-datanode connection, we're going to create a new SSH configuration file.
                             If you're unfamiliar with this, check out <a href="https://linux.die.net/man/5/ssh_config">this</a> reference on creating a <code>~/.ssh/config</code> file.
                             Ultimately, this file should look something like this:
-                            <br /> <img src="img/config.png" width="400" />
                         </li>
+                    </ol>
+                    <br /> <img src="img/config.png" width="500" /><br />
+                    <a class="btn btn-default page-scroll" href="#setup3-2">Proceed!</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="setup3-2" class="intro-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>Finishing up that SSH bit</h3>
+                    <ol class="setup-list">
                         <li>
                             Now we'll need to get the <code>hadoop.pem</code> file and this <code>config</code> file to our Linux instance.
                             Depending on your OS, you'll either need to enter <code>scp ~/.ssh/hadoop.pem ~/.ssh/config namenode:~/.ssh</code> for Linux,
@@ -371,7 +389,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                             (See the <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/putty.html">above</a> guide for more help on this.)
                         </li>
                         <li>
-                            Finally, on the <strong>NameNode</strong>, we're going to create a <strong>public key</strong> to enable password-less ssh-ing to the <strong>DataNodes</strong>:
+                            Finally, on the <strong>NameNode</strong>, we're going to create a <strong>public key</strong> to enable password-less ssh-ing to the <strong>DataNodes</strong>: </br>
                             <code>ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa</code><br />
                             <code>cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys</code><br />
                             <code>chmod 0600 ~/.ssh/authorized_keys</code><br />
@@ -380,23 +398,25 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                             <code>cat ~/.ssh/id_dsa.pub | ssh datanode3 'cat >> ~/.ssh/authorized_keys'</code><br />
                         </li>
                     </ol>
+                    <img src="img/cli_keyfingerprint.png" />
                     <p>
                         With that, we should be able to ssh into any <strong>DataNode</strong> from our <strong>NameNode</strong>, which means we are
                         ready to proceed with the Java and Hadoop installation and environment setup!
                     </p>
-                    <a class="btn btn-default page-scroll" href="#setup4">Proceed!</a>
+                    <a class="btn btn-default page-scroll" href="#setup4">Almost done!</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Setup: Java & Hadoop Installation / Environment Config -->
-    <section id="setup4" class="setup-section">
+    <section id="setup4" class="setup-section2">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <img src="img/sep.png" width="300" />
                     <h3>Step the Fourth: Java, Hadoop, and Environment Configuration</h3>
+                    <img src="img/JobTrack_TaskTracker.png" width="400" />
                     <p>
                         Now we're going to configure the virtual machines to run Hadoop!
                         The following steps should be executed on each instance (<strong>NameNode</strong>, <strong>datanode1</strong>, <strong>datanode2</strong>, and <strong>datanode3</strong>):
@@ -437,20 +457,19 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                         You should see a process list that includes <strong>TaskTracker</strong>, <strong>SecondaryNameNode</strong>, and <strong>ResourceManager</strong>.
                         Assuming everything has gone smoothly, we have completed the setup! Which means we can now run our first MapReduce job.
                     </p>
-                    <a class="btn btn-default page-scroll" href="#setup4">It's time to MapReduce!</a>
+                    <a class="btn btn-default page-scroll" href="#job1">It's time to MapReduce!</a>
                 </div>
             </div>
         </div>
     </section>
-
-    <img src="img/JobTrack_TaskTracker.png" width="400" />
 
     <!-- Job Section -->
     <section id="job1" class="job-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>TODO: Job Demo Section</h1>
+                    <h2>Running a MapReduce Job</h2>
+                    <img src="img/WordCount MapReduce Paradigm.PNG" width="500"/>
                     <p>
                         Going to run a typical job, word count! soo many lines in lotsa files - like novels' worth of lines - want a count of words
                         good example because can algorithm can run in PARALLEL. so on the <strong>NameNode</strong>, we'll do the following:
@@ -475,15 +494,37 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                             <code>head /MapReduceExampleOutput/MapReduceExampleOutput</code>
                         </li>
                     </ol>
+                    <a class="btn btn-default page-scroll" href="#job2">To clean up...</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- TODO: how to stop -->
-    $HADOOP_PREFIX/sbin/stop-dfs.sh
-    $HADOOP_PREFIX/sbin/stop-yarn.sh
-    $HADOOP_PREFIX/sbin/mr-jobhistory-daemon.sh --config $HADOOP_CONF_DIR stop historyserver
+    <!-- Job Section: Cleaning Up -->
+    <section id="job2" class="job-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>TODO: cleaning!</h2>
+                    <p>
+                        with that all done, clean up!
+                    </p>
+                    <ol class="setup-list">
+                        <li>
+                            type this to do this
+                            $HADOOP_PREFIX/sbin/stop-dfs.sh
+                            $HADOOP_PREFIX/sbin/stop-yarn.sh
+                            $HADOOP_PREFIX/sbin/mr-jobhistory-daemon.sh --config $HADOOP_CONF_DIR stop historyserver
+                        </li>
+                        <li>
+                            and this to do this!
+                        </li>
+                    </ol>
+                    <a class="btn btn-default page-scroll" href="#nextsteps">Next steps...</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Next Steps Section - TODO: fix list styling! -->
     <section id="nextsteps" class="resources-section">
@@ -493,6 +534,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                     <h1>TODO: next steps - Spark info</h1>
                     <!-- https://docs.aws.amazon.com/ElasticMapReduce/latest/ReleaseGuide/emr-spark.html -->
                     <!-- http://spark.apache.org/examples.html -->
+                    <a class="btn btn-default page-scroll" href="#resources">Bibliography</a>
                 </div>
             </div>
         </div>
@@ -503,15 +545,15 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Resources Section</h1>
-                    <ul>
+                    <h1>Resources</h1>
+                    <ol class="setup-list">
                         <li>https://wiki.apache.org/hadoop</li>
                         <li>http://deltarho.org/docs-datadr</li>
                         <li>http://research.google.com/archive/mapreduce.html</li>
                         <li>https://en.wikipedia.org/wiki/MapReduce</li>
                         <li>https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/ClusterSetup.html</li>
                         <li>http://www.michael-noll.com/tutorials/running-hadoop-on-ubuntu-linux-single-node-cluster</li>
-                    </ul>
+                    </ol>
                 </div>
             </div>
         </div>
