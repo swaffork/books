@@ -62,7 +62,10 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                         <a class="page-scroll" href="#setup1">Setting Up</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#contact">Contact</a>
+                        <a class="page-scroll" href="#job1">Running a Job</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#TODO">Next Steps</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#resources">Resources</a>
@@ -79,12 +82,20 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
+                    <img src="img/comic.jpg" />
                     <h1>What's this?</h1>
                     <p>
                         This site is intended to be a brief overview of big data and the MapReduce model, an introduction to Hadoop, and a step-by-step for setting up
                         a multinode Hadoop cluster with AWS.
                     </p>
-                    <p>TODO: STRUCTURE</p>
+                    <p>TODO: PREREQS - Java, some OS know-how, </p>
+                    <p>
+                        TODO: STRUCTURE - there are tutorials for setting up AWS EC2 machine, for setting up multinode cluster,
+                        for running job on multinode cluster, haven't found a coherent ***TODO actualHadooplinkhere start-to-finish process for beginners
+                        WHY THIS HOW TO VS OTHERS?:
+                        most classes cost money/assume you're already working as a data scientist, while free tutorials give clear steps to set up, but don't provide background on the <em>why</em> you're doing what you're doing.
+                        If looking for a faster get-up-and-running without the OS management, consider the walkthrough for setting up Hadoop on Amazon Elastic MapReduce <a href="https://aws.amazon.com/emr/details/hadoop/">here</a>.
+                    </p>
                     <a class="btn btn-default page-scroll" href="#intro1">What's MapReduce?</a>
                 </div>
             </div>
@@ -163,14 +174,23 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                 <div class="col-lg-12">
                     <h1>What's Hadoop?</h1>
                     <p>
-                        <strong>Hadoop</strong> is an open-source framework for distributed storage and processing of big-data sets.
+                        <strong>Hadoop</strong> is an open-source framework by Apache for distributed storage and processing of big-data sets.
                     </p>
                     <img src="img/elephant.png" width="300" />
                     <p>
-                        Hadoop has two main pieces: storage and processing. The <strong>Hadoop Distributed File System (HDFS)</strong> comprises the storage part; this system splits files into pieces and stores them redudantly on relatively cheap machines (known as <strong>DataNodes</strong>); access to these datanodes is controlled by one <strong>NameNode</strong> which hosts the file system index. Data is replicated across multiple datanodes for relaibility. By indexing and tracking data across a cluster of servers, it enables the processing of lots of data. Like, <em>lots</em>.
+                        Hadoop has three main pieces: storage, processing, and resource management.
+                        The <strong>Hadoop Distributed File System (HDFS)</strong> comprises the storage part.
+                        This system splits files into pieces and stores them redudantly on relatively cheap machines (known as <strong>DataNodes</strong>); access to these datanodes is controlled by one <strong>NameNode</strong> which hosts the file system index.
+                        Data is replicated across multiple datanodes for relaibility. By indexing and tracking data across a cluster of servers, it enables the processing of lots of data. Like, <em>lots</em>.
                     </p>
                     <p>
-                        The processing part of Hadoop is the <strong>MapReduce Engine</strong>. The MapReduce framework consists of a master ResourceManager and a worker NodeManager on each node. Client applications submit MapReduce jobs to a JobTracker; each job splits the input data into blocks which are processed in parallel by <strong>map tasks</strong>. The output of all of the map tasks is sorted by the MapReduce framework and input into <strong>reduce tasks</strong>.
+                        The processing part of Hadoop is the <strong>MapReduce Engine</strong>.
+                        The MapReduce execution framework consists of a master ResourceManager and a worker NodeManager on each node. Client applications submit MapReduce jobs to a JobTracker; each job splits the input data into blocks which are processed in parallel by <strong>map tasks</strong>.
+                        The output of all of the map tasks is sorted by the MapReduce framework and input into <strong>reduce tasks</strong>.
+                    </p>
+                    <p>
+                        The resouce management part is known as <strong>YARN</strong> (or Yet Another Resource Negotiator).
+                        It is the component that actually manages the cluster, allowing the central NameNode to allocate resources as needed. 
                     </p>
                     <a class="btn btn-default page-scroll" href="#intro3">Tell me more!</a>
                 </div>
@@ -179,7 +199,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
     </section>
 
     <!-- Intro: Hadoop's MapReduce Section -->
-    <section id="intro3" class="intro-section">
+    <section id="intro3" class="intro-section2">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -189,9 +209,14 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                     </p>
                     <img src="img/architecture.jpg" width="225" />
                     <p>
-                        A request is known as a "job", which (since we're working with Java) includes the JAR files and classes required to process the data. This job must include a main class with a datastructure that carries the configuration for the data we're working with.
-                        Jobs can then be run by being submitted to Hadoop's JobTracker, which will distribute the map- and reduce-steps as tasks to the datanodes. These tasks are executed in parallel by the TaskTrackers.
+                        A request is known as a "job", which (since we're working with Java) includes the JAR files and classes required to process the data.
+                        This job must include a main class with a datastructure that carries the configuration for the data we're working with.
+                        Jobs can then be run by being submitted to Hadoop's JobTracker, which will distribute the map- and reduce-steps as tasks to the datanodes.
+                        These tasks are executed in parallel by the TaskTrackers.
+                        The command to start a job looks like this:
                     </p>
+                    <img src="img/jobCommand.png" width="250" />
+                    <br />
                     <p>
                         One really important thing to understand here is that when Hadoo's MapReduce Engine pushes work out to datanodes, it does so by keeping processing tasks as close as possible to the data which is being processed in order to reduce network traffic.
                         Why? Because there is a tradeoff between computation and communication costs!
@@ -226,39 +251,248 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
         </div>
     </section>
 
-    <!-- Setup Section -->
+    <!-- Setup: EC2 Section -->
     <section id="setup1" class="setup-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Setting Up</h1>
+                    <h2>Setting Up</h2>
                     <p>
-                        So we're gonna need some nodes in a cluster...
-                        To start with, we're going to need an AWS EC2 account. <a href="#">go here for how to aws ec2</a>
-                        <code>example.js</code>
+                        So to utilize the parallelizing gains we get from Hadoop's MapReduce, we're going to want a couple of nodes. According to the Hadoop Wiki, we're looking for "moderately high-end commodity machines" with 4-8GB of RAM. And this is where AWS EC2 comes in!
+                        If you aren't familiar with AWS EC2, check out <a href="https://aws.amazon.com/ec2/">Amazon EC2 - Virtual Server Hosting</a> for an overview.
+                        The main benefit of using EC2 is that we get those commodity machines we're looking for - for free!
+                        There are a handful of tutorials out there for setting up a cluster through EC2. For the purposes of this how-to, written in November of 2016,
+                        here is the recommended, condensed instance setup.
                     </p>
+                    <img src="img/sep.png" width="300"/>
+                    <h3>Step the First: Setting up EC2 Instances</h3>
+                    <ol class="setup-list">
+                        <li>
+                            From the EC2 Management Console, select <img src="img/ec2setup1.png" width="100" />
+                            and select <strong>Ubuntu Server 16.04 64-bit Virtual Machine</strong>. Choose <strong>t2.micro</strong>
+                            for our storage (as discussed below, we aren't getting into Spark today, so our instance only needs 1 GiB in memory).
+                            Select 'Configure Instance Details'.
+                        </li>
+                        <li>
+                            Enter <strong>4</strong> for the number of instances (for our one NameNode and three DataNodes) and select 'Add Storage'.
+                        </li>
+                        <li>
+                            Leave the root volume the default of <strong>8 GiB</strong> (for this tutorial, we won't need more than that!).
+                            Select 'Add Tags' and enter a temporary name for these instances.
+                            (Upon launch, we're going to change these to reflect the NameNode and DataNodes.) Select 'Configure Security Group'.
+                        </li>
+                        <li>
+                            Create a new security group with <strong>all</strong> inbound traffic allowed
+                            (NOTE: this should be <em>temporary</em> because it's extremely insecure, but it makes the cluster setup easier - it's how our NameNode will easily communicate with DataNodes).
+                            Select 'Review and Launch', and then 'Launch'!
+                        </li>
+                        <li>
+                            At this point, you should be prompted for an SSH Select an existing key pair or create a new key pair. Select <strong>Create a new key pair</strong>
+                            and name it <strong>hadoop</strong>. Select 'Download Key Pair' and save this <code>hadoop.pem</code> file to a secure and find-able directory.
+                            Select 'Launch Instances'.
+                        </li>
+                    </ol>
+                    <p>
+                        At this point, your instances are spinning up. This process shouldn't take more than a couple of minutes.
+                        From the console, give each instance a unique tag: namenode, datanode1, datanode2, and datanode3 (these names will make our later cluster configuring easier).
+                        We're now going to record a few pertinent details for setting up our multinode cluster for Hadoop.
+                    </p>
+                    <a class="btn btn-default page-scroll" href="#setup2">Great!</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Services Section -->
-    <section id="services" class="services-section">
+    <!-- Setup: Instance Details Section -->
+    <section id="setup2" class="setup-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Services Section</h1>
+                    <img src="img/sep.png" width="300" />
+                    <h3>Step the Second: Getting Configuration Details from EC2 Instances</h3>
+                    <ol class="setup-list">
+                        <li>
+                            We're going to need the <strong>Public DNS</strong> and <strong>Private DNS</strong> for each node.
+                            Make a new <code>hadoopConfig.txt</code> file to keep this information around.
+                        </li>
+                        <li>
+                            From the console, select the <strong>namenode</strong> instance.
+                            In the 'Description' area, find the <strong>Public DNS</strong>, which should look something like
+                            <code>ec2-35-163-47-79.us-west-2.compute.amazonaws.com</code>.
+                            Copy this address into <code>hadoopConfig.txt</code>.
+                        </li>
+                        <li>
+                            In the same 'Description' area, look for the <strong>Private DNS</strong>, which should look something like
+                            <code>ip-172-31-14-44</code>. Copy this address into <code>hadoopConfig.txt</code>.
+                        </li>
+                        <li>
+                            Repeat this process for <strong>datanode1</strong>, <strong>datanode2</strong>, and <strong>datanode3</strong>.
+                            Your <code>hadoopConfig.txt</code> file should something like this (with your own instance values, of course):
+                        </li>
+                    </ol>
+                    <img src="img/ec2setup2.png" width="400"/><br />
+                    <a class="btn btn-default page-scroll" href="#setup3">Now that we have our instance details...</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact-section">
+    <!-- Setup: SSH-ing Into Instances -->
+    <section id="setup3" class="setup-section2">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Contact Section</h1>
+                    <img src="img/sep.png" width="300" />
+                    <h3>Step the Third: SSH-ing and Installation</h3>
+                    <p>
+                        This is where some prior knowledge of operating systems can be helpful.
+                        The goal in this section is to connect to each node via SSH and to allow the <strong>NameNode</strong>
+                        to SSH into each <strong>DataNode</strong> without needing to provide a password.
+                        Why? This is how the <strong>JobTracker</strong> will communicate with each <strong>TaskTracker</strong>!
+                    </p>
+                    
+                    <ol class="setup-list">
+                        <li>
+                            Depending on your local OS, you will either need to change the permission of the <code>hadoop.pem</code> file to 600 (for <strong>owner read-only</strong>),
+                            or (if you're using a client like <a href="www.putty.org/">PuTTY</a>), you'll need to generate a private .ppk key.
+                            For details, check out <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/putty.html">Connecting to Your Linux Instance from Windows Using PuTTY</a>.
+                        </li>
+                        <li>
+                            To make it nice and simple for that namenode-to-datanode connection, we're going to create a new SSH configuration file.
+                            If you're unfamiliar with this, check out <a href="https://linux.die.net/man/5/ssh_config">this</a> reference on creating a <code>~/.ssh/config</code> file.
+                            Ultimately, this file should look something like this:
+                            <br /> <img src="img/config.png" width="400" />
+                        </li>
+                        <li>
+                            Now we'll need to get the <code>hadoop.pem</code> file and this <code>config</code> file to our Linux instance.
+                            Depending on your OS, you'll either need to enter <code>scp ~/.ssh/hadoop.pem ~/.ssh/config namenode:~/.ssh</code> for Linux,
+                            OR install a client like <a href="https://winscp.net/eng/download.php">WinSCP</a> (which has a tidy drag-and-drop GUI)
+                            to move these files over to our instance's <code>.ssh</code> directory.
+                            (See the <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/putty.html">above</a> guide for more help on this.)
+                        </li>
+                        <li>
+                            Finally, on the <strong>NameNode</strong>, we're going to create a <strong>public key</strong> to enable password-less ssh-ing to the <strong>DataNodes</strong>:
+                            <code>ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa</code><br />
+                            <code>cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys</code><br />
+                            <code>chmod 0600 ~/.ssh/authorized_keys</code><br />
+                            <code>cat ~/.ssh/id_dsa.pub | ssh datanode1 'cat >> ~/.ssh/authorized_keys'</code><br />
+                            <code>cat ~/.ssh/id_dsa.pub | ssh datanode2 'cat >> ~/.ssh/authorized_keys'</code><br />
+                            <code>cat ~/.ssh/id_dsa.pub | ssh datanode3 'cat >> ~/.ssh/authorized_keys'</code><br />
+                        </li>
+                    </ol>
+                    <p>
+                        With that, we should be able to ssh into any <strong>DataNode</strong> from our <strong>NameNode</strong>, which means we are
+                        ready to proceed with the Java and Hadoop installation and environment setup!
+                    </p>
+                    <a class="btn btn-default page-scroll" href="#setup4">Proceed!</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Setup: Java & Hadoop Installation / Environment Config -->
+    <section id="setup4" class="setup-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <img src="img/sep.png" width="300" />
+                    <h3>Step the Fourth: Java, Hadoop, and Environment Configuration</h3>
+                    <p>
+                        Now we're going to configure the virtual machines to run Hadoop!
+                        The following steps should be executed on each instance (<strong>NameNode</strong>, <strong>datanode1</strong>, <strong>datanode2</strong>, and <strong>datanode3</strong>):
+                    </p>
+                    <ol class="setup-list">
+                        <li>
+                            First things first, make sure each instance is up to date:
+                            <code>sudo apt-get update</code>
+                        </li>
+                        <li>
+                            And now, since Hadoop is Java-based, we'll install Java.
+                            The version will depend on the current recommended version, which we can find
+                            from the official <a href="https://wiki.apache.org/hadoop/HadoopJavaVersions">Hadoop Wiki</a>.
+                        </li>
+                        <li>
+                            And now we install the actual <a href="http://www.apache.org/dyn/closer.cgi/hadoop/common/">Hadoop files</a>...
+                        </li>
+                        <li>
+                            With everything installed, we'll configure the environment variables.
+                            See <a href="https://wiki.apache.org/hadoop/HowToConfigure">this guide</a> for more a more in-depth how to on this part,
+                            paying attention to <code>hadoop-env.sh</code>, <code>slaves</code> (on the <strong>NameNode</strong>),
+                            <code>hadoop-default.xml</code>, <code>mapred-default.xml</code>, and <code>hadoop-site.xml</code> files.
+                        </li>
+                        <li>
+                            With the <code>.ssh/config</code> file and the <code>slaves</code> file configured,
+                            we can start up the cluster with a single command on the <strong>NameNode</strong>: <code>$HADOOP_PREFIX/sbin/start-dfs.sh</code><br />
+                            To verify that the cluster is up and running, head to <code>http://your-namenode-dns:50070</code>
+                        </li>
+                        <li>
+                            Next, we start the resource manager on the <strong>NameNode</strong>: <code>$HADOOP_PREFIX/sbin/start-yarn.sh</code>
+                        </li>
+                        <li>
+                            And finally, the JobHistory server! (also on the <strong>NameNode</strong>): <code>$HADOOP_PREFIX/sbin/mr-jobhistory-daemon.sh --config $HADOOP_CONF_DIR start historyserver</code>
+                        </li>
+                    </ol>
+                    <p>
+                        To check that everything is running, enter the command <code>jps</code>.
+                        You should see a process list that includes <strong>TaskTracker</strong>, <strong>SecondaryNameNode</strong>, and <strong>ResourceManager</strong>.
+                        Assuming everything has gone smoothly, we have completed the setup! Which means we can now run our first MapReduce job.
+                    </p>
+                    <a class="btn btn-default page-scroll" href="#setup4">It's time to MapReduce!</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <img src="img/JobTrack_TaskTracker.png" width="400" />
+
+    <!-- Job Section -->
+    <section id="job1" class="job-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>TODO: Job Demo Section</h1>
+                    <p>
+                        Going to run a typical job, word count! soo many lines in lotsa files - like novels' worth of lines - want a count of words
+                        good example because can algorithm can run in PARALLEL. so on the <strong>NameNode</strong>, we'll do the following:
+                    </p>
+                    <ol class="setup-list">
+                        <li>
+                            get some sample files in Plain Text UTF-8 encoding, (check out Project Gutenberg for free ebooks!),
+                            store files in local directory named <code>/MapReduceExampleInput</code>.
+                            At this point, go ahead and make a <code>/MapReduceExampleOutput</code> directory for our results as well.
+                        </li>
+                        <li>
+                            copy to hdfs: <code>dfs -copyFromLocal /WordCountExampleInput /user/ubuntu/MapReduceExampleInput</code>
+                        </li>
+                        <li>
+                            Run the example WordCount job! This command will run Hadoop's already-set-up jobfile for you,
+                            using the text files we copied to the Hadoop Distributed File System, storing the output in <code>MapReduceExampleOutput</code>:
+                            <code>bin/hadoop jar hadoop*examples*.jar wordcount /user/ubuntu/MapReduceExampleInput /user/ubuntu/MapReduceExampleOutput</code>
+                        </li>
+                        <li>
+                            Copy a concatenated results file to our local directory and view them!:
+                            <code>bin/hadoop dfs -getmerge /user/ubuntu/MapReduceExampleOutput /MapReduceExampleOutput</code>
+                            <code>head /MapReduceExampleOutput/MapReduceExampleOutput</code>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TODO: how to stop -->
+    $HADOOP_PREFIX/sbin/stop-dfs.sh
+    $HADOOP_PREFIX/sbin/stop-yarn.sh
+    $HADOOP_PREFIX/sbin/mr-jobhistory-daemon.sh --config $HADOOP_CONF_DIR stop historyserver
+
+    <!-- Next Steps Section - TODO: fix list styling! -->
+    <section id="nextsteps" class="resources-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>TODO: next steps - Spark info</h1>
+                    <!-- https://docs.aws.amazon.com/ElasticMapReduce/latest/ReleaseGuide/emr-spark.html -->
+                    <!-- http://spark.apache.org/examples.html -->
                 </div>
             </div>
         </div>
@@ -271,10 +505,12 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                 <div class="col-lg-12">
                     <h1>Resources Section</h1>
                     <ul>
-                        <li>https://wiki.apache.org/hadoop/ImportantConcepts</li>
+                        <li>https://wiki.apache.org/hadoop</li>
                         <li>http://deltarho.org/docs-datadr</li>
                         <li>http://research.google.com/archive/mapreduce.html</li>
                         <li>https://en.wikipedia.org/wiki/MapReduce</li>
+                        <li>https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/ClusterSetup.html</li>
+                        <li>http://www.michael-noll.com/tutorials/running-hadoop-on-ubuntu-linux-single-node-cluster</li>
                     </ul>
                 </div>
             </div>

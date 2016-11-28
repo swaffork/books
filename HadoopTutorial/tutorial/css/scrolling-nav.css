@@ -47,9 +47,39 @@ of those sections to manage the look and feel of the site. */
 
 .setup-section {
     height: 100%;
-    padding-top: 150px;
+    padding-top: 100px;
     text-align: center;
-    background: #eee;
+    background: #fff;
+}
+
+.setup-section2 {
+    height: 100%;
+    padding-top: 50px;
+    text-align: center;
+    background: #fff;
+}
+
+.setup-list {
+    margin-left: 0;
+    padding-right: 0;
+    list-style-type: none;
+    text-align: left;
+}
+
+.setup-list li {
+    counter-increment: step-counter;
+    margin-top: 10px;
+}
+
+.setup-list li::before {
+    content: counter(step-counter);
+    margin-right: 5px;
+    font-size: 80%;
+    background-color: rgb(200,200,200);
+    color: white;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 3px;
 }
 
 .about-section {
@@ -59,14 +89,7 @@ of those sections to manage the look and feel of the site. */
     background: #eee;
 }
 
-.services-section {
-    height: 100%;
-    padding-top: 150px;
-    text-align: center;
-    background: #fff;
-}
-
-.contact-section {
+.job-section {
     height: 100%;
     padding-top: 150px;
     text-align: center;
