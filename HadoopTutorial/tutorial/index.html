@@ -82,7 +82,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h2>Hadoop How-To</h2>
+                    <h2>MapReduce and Hadoop How-To</h2>
                     <p>
                         This site is intended to be an introduction to <a href="http://hadoop.apache.org/">Hadoop</a> with a brief overview of big data and the MapReduce model,
                         followed by a step-by-step for setting up a multinode Hadoop cluster with <a href="https://aws.amazon.com/ec2/">AWS EC2</a> and running a demo MapReduce job.
@@ -455,7 +455,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                     <p>
                         To check that everything is running, enter the command <code>jps</code>.
                         You should see a process list that includes <strong>TaskTracker</strong>, <strong>SecondaryNameNode</strong>, and <strong>ResourceManager</strong>.
-                        Assuming everything has gone smoothly, we have completed the setup! Which means we can now run our first MapReduce job.
+                        Assuming everything has gone smoothly, we have completed the setup -which means we can now run our first MapReduce job!
                     </p>
                     <a class="btn btn-default page-scroll" href="#job1">It's time to MapReduce!</a>
                 </div>
@@ -469,32 +469,39 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
             <div class="row">
                 <div class="col-lg-12">
                     <h2>Running a MapReduce Job</h2>
-                    <img src="img/WordCount MapReduce Paradigm.PNG" width="500"/>
+                    <img src="img/WordCount MapReduce Paradigm.PNG" width="500" />
                     <p>
-                        Going to run a typical job, word count! soo many lines in lotsa files - like novels' worth of lines - want a count of words
-                        good example because can algorithm can run in PARALLEL. so on the <strong>NameNode</strong>, we'll do the following:
+                        For this demo, we're going to run a standard word-count job using Hadoop's provided example job file
+                        (for details on writing this job file yourself, see <a href="https://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html">this guide</a>).
+                        Let's say we have a few books, and we would like to get a tally of words used.
+                        This operation is a good candidate for the MapReduce model because we can run the tallying algorithm in parallel across the thousands of lines of text in the novels.
+                        The jobfile will map each line of text into new key-value pairs of each word and its tally, then reduce by adding up all of the occurences for each word.
+                        So on the <strong>NameNode</strong>, we'll do the following:
                     </p>
                     <ol class="setup-list">
                         <li>
-                            get some sample files in Plain Text UTF-8 encoding, (check out Project Gutenberg for free ebooks!),
-                            store files in local directory named <code>/MapReduceExampleInput</code>.
+                            First, we'll get our books into an input directory to pass along to the <strong>HDFS</strong>.
+                            Check out <a href="http://www.gutenberg.org/">Project Gutenberg</a> for free ebooks, which we'll want to save in 'Plain Text UTF-8 encoding'.
+                            Save a couple of books in a directory on the <strong>NameNode</strong> called<code>/MapReduceExampleInput</code>.
                             At this point, go ahead and make a <code>/MapReduceExampleOutput</code> directory for our results as well.
                         </li>
                         <li>
-                            copy to hdfs: <code>dfs -copyFromLocal /WordCountExampleInput /user/ubuntu/MapReduceExampleInput</code>
+                            Now we'll copy these input files to the <strong>HDFS</strong>: <code>dfs -copyFromLocal /MapReduceExampleInput /user/ubuntu/MapReduceExampleInput</code>
                         </li>
                         <li>
-                            Run the example WordCount job! This command will run Hadoop's already-set-up jobfile for you,
-                            using the text files we copied to the Hadoop Distributed File System, storing the output in <code>MapReduceExampleOutput</code>:
+                            And now we can run the example WordCount job! This command will run Hadoop's already-set-up wordcount jobfile,
+                            using the text files we copied to the Hadoop Distributed File System, storing the output in <code>MapReduceExampleOutput</code>: <br />
                             <code>bin/hadoop jar hadoop*examples*.jar wordcount /user/ubuntu/MapReduceExampleInput /user/ubuntu/MapReduceExampleOutput</code>
                         </li>
                         <li>
-                            Copy a concatenated results file to our local directory and view them!:
-                            <code>bin/hadoop dfs -getmerge /user/ubuntu/MapReduceExampleOutput /MapReduceExampleOutput</code>
-                            <code>head /MapReduceExampleOutput/MapReduceExampleOutput</code>
+                            bin/hdfs dfs -get output output
+                            $ cat output/*
+                            When the job finishes, we can copy the results to our local directory and view them!: <br />
+                            <code>bin/hadoop dfs -get /user/ubuntu/MapReduceExampleOutput /MapReduceExampleOutput</code> <br />
+                            <code>cat /MapReduceExampleOutput/*</code>
                         </li>
                     </ol>
-                    <a class="btn btn-default page-scroll" href="#job2">To clean up...</a>
+                    <a class="btn btn-default page-scroll" href="#job2">Now, to clean up...</a>
                 </div>
             </div>
         </div>
@@ -505,36 +512,65 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h2>TODO: cleaning!</h2>
+                    <h2>Cleaning Up</h2>
+                    <img src="img/clean.png" width="500"/>
                     <p>
-                        with that all done, clean up!
+                        When you're finished with a MapReduce job and don't plan on using Hadoop for a while, it's a good idea to stop the cluster
+                        and <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html">stop your EC2 instances</a> to avoid incurring charges:
                     </p>
                     <ol class="setup-list">
                         <li>
-                            type this to do this
-                            $HADOOP_PREFIX/sbin/stop-dfs.sh
-                            $HADOOP_PREFIX/sbin/stop-yarn.sh
-                            $HADOOP_PREFIX/sbin/mr-jobhistory-daemon.sh --config $HADOOP_CONF_DIR stop historyserver
+                            First, we'll stop the <strong>HDFS</strong> process: <br />
+                            <code>$HADOOP_PREFIX/sbin/stop-dfs.sh</code>
                         </li>
                         <li>
-                            and this to do this!
+                            Then, we'll stop the <strong>Resource Manager</strong>: <br />
+                            <code>$HADOOP_PREFIX/sbin/stop-yarn.sh</code>
+                        </li>
+                        <li>
+                            And finally, we'll stop the <strong>HistoryServer</strong>: <br />
+                            <code>$HADOOP_PREFIX/sbin/mr-jobhistory-daemon.sh --config $HADOOP_CONF_DIR stop historyserver</code>
+                        </li>
+                        <li>
+                            Enter the command <code>jps</code> to check that all processes have ended,
+                            then head to your <a href="https://us-west-2.console.aws.amazon.com/ec2">AWS EC2 Dashboard</a> to stop the instances.
                         </li>
                     </ol>
-                    <a class="btn btn-default page-scroll" href="#nextsteps">Next steps...</a>
+                    <p>
+                        We've finished the how-to portion of this guide, so to wrap up,
+                        we'll briefly cover some next steps you can check out if you're curious about other MapReduce frameworks.
+                    </p>
+                    <a class="btn btn-default page-scroll" href="#nextsteps">Next steps</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Next Steps Section - TODO: fix list styling! -->
-    <section id="nextsteps" class="resources-section">
+    <section id="nextsteps" class="job-section2">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>TODO: next steps - Spark info</h1>
-                    <!-- https://docs.aws.amazon.com/ElasticMapReduce/latest/ReleaseGuide/emr-spark.html -->
-                    <!-- http://spark.apache.org/examples.html -->
-                    <a class="btn btn-default page-scroll" href="#resources">Bibliography</a>
+                    <h2>What's next?</h2>
+                    <img src="img/Spark_brief_history.JPG" width="500"/>
+                    <p>
+                        If you are intrigued by MapReduce and are curious to learn what's up-and-coming in the big data analytics world,
+                        consider checking out <a href="http://spark.apache.org/">Apache Spark</a>.
+                        Similar to Hadoop, Spark is a newer, alternative big data processing engine.
+                        By using a <strong>DAG (Directed Acyclic Graph)</strong> engine, Spark uses in-memory caching, which makes it <em>much</em> faster than Hadoop's MapReduce engine.
+                        Programs can easily be written in higher-level languages like Python.
+                        Furthermore, it makes iterative tasks (like machine learning!) feasible.
+                        Its main drawbacks are that it is memory-intensive, and for some tasks, you may have to manually manage some of the things Hadoop MapReduce takes care of for you.
+                    </p>
+                    <p>
+                        AWS offers an <a href="https://aws.amazon.com/emr">Elastic MapReduce</a>, which makes life easy by providing and configuring Apache Hadoop and Spark software.
+                        For a great getting-started tutorial (complete with a Department of Transportation example), see <a href="https://aws.amazon.com/blogs/aws/new-apache-spark-on-amazon-emr/">Apache Spark on Amazon EMR</a>.
+                        When you've got an environment up and running, you can check out <a href="http://spark.apache.org/examples.html">more examples</a>.
+                    </p>
+                    <p>
+                        And thus concludes our MapReduce and Hadoop overview! See below for a list of resources used to write this guide.
+                    </p>
+                    <a class="btn btn-default page-scroll" href="#resources">Resources</a>
                 </div>
             </div>
         </div>
@@ -546,13 +582,14 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
             <div class="row">
                 <div class="col-lg-12">
                     <h1>Resources</h1>
-                    <ol class="setup-list">
-                        <li>https://wiki.apache.org/hadoop</li>
-                        <li>http://deltarho.org/docs-datadr</li>
-                        <li>http://research.google.com/archive/mapreduce.html</li>
-                        <li>https://en.wikipedia.org/wiki/MapReduce</li>
-                        <li>https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/ClusterSetup.html</li>
-                        <li>http://www.michael-noll.com/tutorials/running-hadoop-on-ubuntu-linux-single-node-cluster</li>
+                    <ol class="resources-list">
+                        <li><a href="http://research.google.com/archive/mapreduce.html">MapReduce - Google Research Publication</a></li>
+                        <li><a href="https://en.wikipedia.org/wiki/MapReduce">MapReduce - Wikipedia</a></li>
+                        <li><a href="http://deltarho.org/docs-datadr/#mapreduce">Introduction to MapReduce</a></li>
+                        <li><a href="https://wiki.apache.org/hadoop">Apache Hadoop Wiki</a></li>
+                        <li><a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/ClusterSetup.html">Hadoop Cluster Setup</a></li>
+                        <li><a href="http://www.michael-noll.com/tutorials/running-hadoop-on-ubuntu-linux-single-node-cluster">Hadoop Single Node Cluster Setup on Ubuntu</a></li>
+                        <li><a href="http://spark.apache.org/">Apache Spark</a></li>
                     </ol>
                 </div>
             </div>
