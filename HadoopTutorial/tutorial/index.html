@@ -88,7 +88,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                         followed by a step-by-step for setting up a multinode Hadoop cluster with <a href="https://aws.amazon.com/ec2/">AWS EC2</a> and running a demo MapReduce job.
                         This how-to is intended to be for those with minimal programming experience. Some Java and operating systems basics will be helpful, but aren't necessary.
                     </p>
-                    <img src="img/Hadoop-and-Big-Data.jpg" width="500" />
+                    <img src="img/HadoopAndBigData.jpg" width="500" />
 
                     <h3>Why this how-to?</h3>
                     <p>
@@ -122,7 +122,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                         When you have lots of data - like, Big Data - like, <em>quintillions of bytes</em> of data that you can process in parallel across multiple machines, MapReduce is a good choice.
                         Likewise, if you've got data that fits on a single machine's main memory, or a process that's pretty quick, or a process that is iterative, such as machine learning, MapReduce might not be the right choice.
                     </p>
-                    <img src="img/Social_Network_Analysis_Visualization.png" width="300" /> <br />
+                    <img src="img/Visualization.png" width="300" /> <br />
                     <a class="btn btn-default page-scroll" href="#example1">Let's see an example!</a>
                 </div>
             </div>
@@ -150,7 +150,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
         </div>
     </section>
 
-    <!-- TODO: CODE: MapReduceExample2-->
+    <!-- MapReduceExample2-->
     <section id="example2" class="intro-section">
         <div class="container">
             <div class="row">
@@ -181,7 +181,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                     <p>
                         <strong>Hadoop</strong> is an open-source framework by Apache for distributed storage and processing of big-data sets.
                     </p>
-                    <img src="img/elephant.png" width="300" />
+                    <img src="img/elephant.PNG" width="300" />
                     <p>
                         Hadoop has three main pieces: storage, processing, and resource management.
                         The <strong>Hadoop Distributed File System (HDFS)</strong> comprises the storage part.
@@ -244,7 +244,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                         A central tenant of Hadoop is that "moving computation is cheaper than moving data":
                         since we're talking <em>big data</em> here, it's better to move the task to the data, rather than moving mass amounts of data across the distributed file system. This helps avoid network congestion, which helps keep the processing time down.
                     </p>
-                    <img src="img/JobTask_Tracker Image.png" width="500"/>
+                    <img src="img/JobTaskTracker.png" width="500"/>
                     <p>
                         Regarding failure recovery, while the NameNode <em>is</em> a single point of failure, none of the individual datanodes are. Their health is monitored through a mechanism called a <strong>heartbeat</strong>.
                         If a node does not check in with a heartbeat over a certain interval, it is presumed to have failed. The JobTracker will then assign that node's task to a different node.
@@ -273,7 +273,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                     <h3>Step the First: Setting up EC2 Instances</h3>
                     <ol class="setup-list">
                         <li>
-                            From the EC2 Management Console, select <img src="img/ec2setup1.png" width="100" />
+                            From the EC2 Management Console, select <img src="img/ec2setup1.PNG" width="100" />
                             and select <strong>Ubuntu Server 16.04 64-bit Virtual Machine</strong>. Choose <strong>t2.micro</strong>
                             for our storage (as discussed below, we aren't getting into Spark today, so our instance only needs 1 GiB in memory).
                             Select 'Configure Instance Details'.
@@ -335,7 +335,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                             Your <code>hadoopConfig.txt</code> file should something like this (with your own instance values, of course):
                         </li>
                     </ol>
-                    <img src="img/ec2setup2.png" width="400"/><br />
+                    <img src="img/ec2setup2.PNG" width="400"/><br />
                     <a class="btn btn-default page-scroll" href="#setup3">Now that we have our instance details...</a>
                 </div>
             </div>
@@ -368,7 +368,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                             Ultimately, this file should look something like this:
                         </li>
                     </ol>
-                    <br /> <img src="img/config.png" width="500" /><br />
+                    <br /> <img src="img/config.PNG" width="500" /><br />
                     <a class="btn btn-default page-scroll" href="#setup3-2">Proceed!</a>
                 </div>
             </div>
@@ -398,7 +398,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                             <code>cat ~/.ssh/id_dsa.pub | ssh datanode3 'cat >> ~/.ssh/authorized_keys'</code><br />
                         </li>
                     </ol>
-                    <img src="img/cli_keyfingerprint.png" />
+                    <img src="img/keyfingerprint.png" />
                     <p>
                         With that, we should be able to ssh into any <strong>DataNode</strong> from our <strong>NameNode</strong>, which means we are
                         ready to proceed with the Java and Hadoop installation and environment setup!
@@ -416,7 +416,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
                 <div class="col-lg-12">
                     <img src="img/sep.png" width="300" />
                     <h3>Step the Fourth: Java, Hadoop, and Environment Configuration</h3>
-                    <img src="img/JobTrack_TaskTracker.png" width="400" />
+                    <img src="img/JobTrackTaskTracker.png" width="400" />
                     <p>
                         Now we're going to configure the virtual machines to run Hadoop!
                         The following steps should be executed on each instance (<strong>NameNode</strong>, <strong>datanode1</strong>, <strong>datanode2</strong>, and <strong>datanode3</strong>):
@@ -469,7 +469,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
             <div class="row">
                 <div class="col-lg-12">
                     <h2>Running a MapReduce Job</h2>
-                    <img src="img/WordCount MapReduce Paradigm.PNG" width="500" />
+                    <img src="img/WordCountMapReduceParadigm.PNG" width="500" />
                     <p>
                         For this demo, we're going to run a standard word-count job using Hadoop's provided example job file
                         (for details on writing this job file yourself, see <a href="https://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html">this guide</a>).
@@ -546,13 +546,13 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
         </div>
     </section>
 
-    <!-- Next Steps Section - TODO: fix list styling! -->
+    <!-- Next Steps Section -->
     <section id="nextsteps" class="job-section2">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <h2>What's next?</h2>
-                    <img src="img/Spark_brief_history.JPG" width="500"/>
+                    <img src="img/Spark.JPG" width="500"/>
                     <p>
                         If you are intrigued by MapReduce and are curious to learn what's up-and-coming in the big data analytics world,
                         consider checking out <a href="http://spark.apache.org/">Apache Spark</a>.
@@ -576,7 +576,7 @@ https://blackrockdigital.github.io/startbootstrap-scrolling-nav/ -->
         </div>
     </section>
 
-    <!-- Resources Section - TODO: fix list styling! -->
+    <!-- Resources Section -->
     <section id="resources" class="resources-section">
         <div class="container">
             <div class="row">
