@@ -34,3 +34,5 @@ router.post('/', function (req, res) {
         return res.redirect('/login');
     });
 });
+
+module.exports = router;
