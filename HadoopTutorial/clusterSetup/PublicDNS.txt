@@ -5,7 +5,8 @@ ip-172-31-14-44
 datanode1
 ec2-35-163-103-200.us-west-2.compute.amazonaws.com
 ip-172-31-14-41
-datanode
+
+datanode2
 ec2-35-164-46-162.us-west-2.compute.amazonaws.com
 ip-172-31-14-42
 
