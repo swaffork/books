@@ -1,8 +1,6 @@
-var request = require('request');
-
 function geoFindMe() {
     var output = document.getElementById("out");
-	output.innerHTML = '<p>Latitude is '</p>';
+	output.innerHTML = '<p>Latitude is </p>';
 	
 	var xhr = new XMLHttpRequest();
 	xhr.open('GET', "//ipinfo.io/json", true);
