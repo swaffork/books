@@ -2,11 +2,18 @@ var request = require('request');
 
 function geoFindMe() {
     var output = document.getElementById("out");
+	output.innerHTML = '<p>Latitude is '</p>';
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET', "//ipinfo.io/json", true);
+	xhr.send();
+	
+	xhr.addEventListener("readystatechange", processRequest, false);
+}
 
-	request("http://ip-api.com/json", function (error, response, body) {
-		if (!error && response.statusCode == 200) {
-			console.log(body.city);
-			output.innerHTML = '<p>Latitude is ' + body.lat + '° <br>Longitude is ' + body.lon + '°</p>';
-		}
-	});
+function processRequest(e) {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+        var response = JSON.parse(xhr.responseText);
+        alert(response.ip);
+    }
 }
