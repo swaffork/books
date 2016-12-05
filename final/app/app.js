@@ -26,7 +26,13 @@
                 controller: 'Account.IndexController',
                 controllerAs: 'vm',
                 data: { activeTab: 'account' }
-            });
+            })
+			.state('place', {
+				url: '/place',
+				templateUrl: 'place/index.html',
+				controller: 'Place.IndexController',
+				controllerAs: 'vm',
+				data: { activeTab: 'home' };
     }
 
     function run($http, $rootScope, $window) {
