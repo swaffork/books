@@ -8,4 +8,5 @@ function geoFindMe() {
         console.log(body.city);
 		output.innerHTML = '<p>Latitude is ' + body.lat + '° <br>Longitude is ' + body.lon + '°</p>';
     }
-});
+	}
+};
