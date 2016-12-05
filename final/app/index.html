@@ -28,6 +28,21 @@
 	<p><button onclick="geoFindMe()">Show my location</button></p>
 	<div id="out"></div>
 	<script src="geoscript.js"></script>
+	
+	<!-- location -->
+	<h3>My Locations</h3>
+	<div class="form-container">
+		<form method="post">
+			<div class="form-group">
+				<label for="cityName">City name</label>
+				<input type="text" id="cityName" class="form-control" ng-model="vm.location.cityName" required />
+			</div>
+			<div class="form-group">
+				<button class="btn btn-primary" ng-click="vm.saveLocation()">Save</button>
+				<button class="btn btn-danger" ng-click="vm.deleteLocation()">Delete</button>
+			</div>
+		</form>
+	</div>
  
     <!-- footer -->
     <footer></footer>
