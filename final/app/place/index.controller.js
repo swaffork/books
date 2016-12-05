@@ -5,7 +5,7 @@
  
     angular
         .module('app')
-        .controller('Account.IndexController', Controller);
+        .controller('Place.IndexController', Controller);
  
     function Controller($window, UserService, FlashService) {
         var vm = this;
@@ -26,7 +26,7 @@
         function saveUser() {
             UserService.Update(vm.user)
                 .then(function () {
-                    FlashService.Success('User updated');
+                    FlashService.Success('Place updated');
                 })
                 .catch(function (error) {
                     FlashService.Error(error);

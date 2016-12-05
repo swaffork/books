@@ -32,7 +32,8 @@
 				templateUrl: 'place/index.html',
 				controller: 'Place.IndexController',
 				controllerAs: 'vm',
-				data: { activeTab: 'home' };
+				data: { activeTab: 'home' }
+			});
     }
 
     function run($http, $rootScope, $window) {
