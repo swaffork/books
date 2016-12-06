@@ -12,10 +12,11 @@ function geoFindMe() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
 			var response = JSON.parse(xhr.responseText);
 			console.log(response.city);	
+			var city = response.city;
 			var latitude = response.lat;
 			var longitude = response.lon;
 			
-			output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
+			output.innerHTML = '<p>City: ' + city + '<br>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
 
     		/*var img = new Image();
     		img.src = "https://maps.googleapis.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=13&size=300x300&sensor=false";
