@@ -96,6 +96,7 @@ function create(userParam) {
  
 function update(_id, userParam) {
     var deferred = Q.defer();
+	console.log(_id);
  
     // validation
     db.users.findById(_id, function (err, user) {
@@ -150,7 +151,7 @@ function update(_id, userParam) {
 function _delete(_id) {
     var deferred = Q.defer();
  
-    db.users.remove(
+    db.users.remove( // TODO remove user's places as well!
         { _id: mongo.helper.toObjectID(_id) },
         function (err) {
             if (err) deferred.reject(err);

@@ -41,7 +41,7 @@ function create(placeParam) { // TODO:  CONTROLLER MUST PASS USER ID
  
     // validation
     db.places.findOne(
-        { cityname: placeParam.cityname },
+        { cityname: placeParam.cityname }, // TODO check for user ID with query - should only reject if this user has already been here
         function (err, place) {
             if (err) deferred.reject(err);
  
