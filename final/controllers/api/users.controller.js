@@ -59,6 +59,7 @@ function getCurrentUser(req, res) {
  // UPDATE BY ID (PUT)
 function updateUser(req, res) {
     var userId = req.user.sub;
+	console.log(userId);
     if (req.params._id !== userId) {
         // can only update own account
         return res.status(401).send('You can only update your own account');
